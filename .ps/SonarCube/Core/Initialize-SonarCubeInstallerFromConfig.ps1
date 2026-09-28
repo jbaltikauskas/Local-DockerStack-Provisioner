@@ -101,15 +101,15 @@ function Initialize-SonarCubeInstallerFromConfig () {
         }
 
         $settings = @{
-            InstallRootFolder = $installRootFolder
-            Port              = $port
-            BindAddress       = $bindAddress
-            WebHost           = Get-RequiredConfigString -Config $config -Name 'WEB_HOST' -ConfigFileName $configFileName
-            SonarQubeImage    = Get-RequiredConfigString -Config $config -Name 'SONARQUBE_IMAGE' -ConfigFileName $configFileName
-            PostgresImage     = Get-RequiredConfigString -Config $config -Name 'POSTGRES_IMAGE' -ConfigFileName $configFileName
-            PostgresUser      = Get-RequiredConfigString -Config $config -Name 'POSTGRES_USER' -ConfigFileName $configFileName
-            PostgresPassword  = Get-RequiredConfigString -Config $config -Name 'POSTGRES_PASSWORD' -ConfigFileName $configFileName
-            PostgresDb        = Get-RequiredConfigString -Config $config -Name 'POSTGRES_DB' -ConfigFileName $configFileName
+            InstallRootFolder  = $installRootFolder
+            Port               = $port
+            BindAddress        = $bindAddress
+            WebHost            = Get-RequiredConfigString -Config $config -Name 'WEB_HOST' -ConfigFileName $configFileName
+            SonarQubeImage     = Get-RequiredConfigString -Config $config -Name 'SONARQUBE_IMAGE' -ConfigFileName $configFileName
+            PostgresImage      = Get-RequiredConfigString -Config $config -Name 'POSTGRES_IMAGE' -ConfigFileName $configFileName
+            PostgresUser       = Get-RequiredConfigString -Config $config -Name 'POSTGRES_USER' -ConfigFileName $configFileName
+            PostgresPassword   = Get-RequiredConfigString -Config $config -Name 'POSTGRES_PASSWORD' -ConfigFileName $configFileName
+            PostgresDb         = Get-RequiredConfigString -Config $config -Name 'POSTGRES_DB' -ConfigFileName $configFileName
             SonarAdminUsername = $sonarAdminUsername
             SonarAdminPassword = $sonarAdminPassword
         }
