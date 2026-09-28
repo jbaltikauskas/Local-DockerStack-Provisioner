@@ -64,8 +64,10 @@ try {
 
     $moduleFiles = @(
         '..\Common\Write-Utf8NoBom.ps1'
+        '..\Core\Configuration.ps1'
+        '..\Core\Docker.ps1'
+        '..\Core\Network.ps1'
         'Core\Configuration.ps1'
-        'Core\Docker.ps1'
         'Core\FileSystem.ps1'
         'Core\Network.ps1'
         'Core\Security.ps1'
@@ -87,7 +89,7 @@ try {
 
 
     Initialize-MSSqlInstallerFromConfig -ScriptRoot $scriptRoot
-    Assert-MSSqlInstallerPrerequisites
+    Assert-DockerPrerequisites
 
     $serverRoot = Resolve-MSSqlInstallFolder -InstallRootFolder $InstallRootFolder -ServerNamePrefix $ServerNamePrefix
     $Port = Resolve-MSSqlInstallerPort -ConfiguredPort $Port
@@ -152,7 +154,7 @@ try {
         -ServiceName $serviceName
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
-    Start-MSSqlStack -ComposePath $composePath
+    Start-ComposeStack -ComposePath $composePath
 
     Write-Host ""
     Write-Host "MSSQL Server is starting. First start may take 30-60 seconds." -ForegroundColor Green

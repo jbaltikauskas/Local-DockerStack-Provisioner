@@ -1,4 +1,4 @@
-function Assert-AspireDashboardInstallerPrerequisites () {
+function Assert-DockerPrerequisites () {
     <#
     .SYNOPSIS
         Verifies Docker Engine and Docker Compose v2.
@@ -33,10 +33,10 @@ function Assert-AspireDashboardInstallerPrerequisites () {
     }
 }
 
-function Start-AspireDashboardStack () {
+function Start-ComposeStack () {
     <#
     .SYNOPSIS
-        Pulls and starts the Aspire Dashboard compose stack.
+        Pulls and starts a Docker Compose stack.
     .DESCRIPTION
         Runs docker compose pull and up -d, then prints current service state.
     .NOTES

@@ -24,10 +24,25 @@ Each installer has a matching required root config file:
 - `config-snowflake.json`
 - `config-cosmosdb.json`
 
-Edit the stack-specific helper modules when changing installer behavior. The
-common shape is the shared `Common\Write-Utf8NoBom.ps1` plus `Core\Configuration.ps1`,
-`Core\Docker.ps1`, `Core\Network.ps1`, `Core\FileSystem.ps1`, optional
+Edit the stack-specific helper modules when changing installer behavior. Shared,
+installer-agnostic helpers live under `.ps\Core\` and are dot-sourced by every
+installer:
+
+- `Core\Configuration.ps1` — `Get-RequiredConfigString`, `Get-RequiredConfigPort`,
+  `Get-RequiredConfigBool`.
+- `Core\Docker.ps1` — `Assert-DockerPrerequisites`, `Start-ComposeStack`.
+- `Core\Network.ps1` — `Test-TcpPortAvailable`, `Resolve-BindAddressFromHostName`.
+
+Keep functions in `.ps\Core\` generic: no stack name prefixes and no literals
+tied to one installer (config file names and settings come in as parameters).
+
+The per-stack shape is the shared `Common\Write-Utf8NoBom.ps1` and `.ps\Core\`
+helpers above, plus stack `Core\Configuration.ps1` (the `Initialize-<Stack>...`
+loader and any stack-specific validation), `Core\Network.ps1` (the stack
+`Resolve-<Stack>InstallerPort` and port checks), `Core\FileSystem.ps1`, optional
 `Core\Security.ps1`, and one file per template writer under `Templates\`.
+SonarCube additionally keeps a stack `Core\Docker.ps1` (Docker vm.max_map_count
+and its phased database/application start) and `Core\DotNet.ps1`.
 
 `ServerNamePrefix` is a required installer input. Never read it from config
 files. Installers always create `<ServerNamePrefix>-<StackName>-yyyyMMdd`

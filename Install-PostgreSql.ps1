@@ -63,8 +63,10 @@ try {
 
     $moduleFiles = @(
         '..\Common\Write-Utf8NoBom.ps1'
+        '..\Core\Configuration.ps1'
+        '..\Core\Docker.ps1'
+        '..\Core\Network.ps1'
         'Core\Configuration.ps1'
-        'Core\Docker.ps1'
         'Core\FileSystem.ps1'
         'Core\Network.ps1'
         'Templates\New-PostgreSqlComposeFile.ps1'
@@ -84,10 +86,10 @@ try {
     Write-Host "Done loading module files." -ForegroundColor Green
 
     Initialize-PostgreSqlInstallerFromConfig -ScriptRoot $scriptRoot
-    Assert-PostgreSqlInstallerPrerequisites
+    Assert-DockerPrerequisites
 
     $serverRoot = Resolve-PostgreSqlInstallFolder -InstallRootFolder $InstallRootFolder -ServerNamePrefix $ServerNamePrefix
-    $bindAddress = Resolve-PostgreSqlBindAddressFromHostName -HostName $HostName -ConfigFileName 'config-postgresql.json'
+    $bindAddress = Resolve-BindAddressFromHostName -HostName $HostName -ConfigFileName 'config-postgresql.json'
     $Port = Resolve-PostgreSqlInstallerPort -ConfiguredPort $Port
     $connectionString = "Host=${HostName};Port=${Port};Username=${PostgreSqlUser};Database=${PostgreSqlDb}"
 
@@ -156,7 +158,7 @@ try {
         -ServiceName $serviceName
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
-    Start-PostgreSqlStack -ComposePath $composePath
+    Start-ComposeStack -ComposePath $composePath
 
     Write-Host ""
     Write-Host "PostgreSQL is starting. First start may take a few seconds." -ForegroundColor Green

@@ -76,6 +76,9 @@ try {
     Write-Output "Loading module files:" -ForegroundColor Green
 
     $moduleFiles = @(
+        '..\Core\Configuration.ps1'
+        '..\Core\Docker.ps1'
+        '..\Core\Network.ps1'
         'Core\Configuration.ps1'
         'Core\Docker.ps1'
         'Core\DotNet.ps1'
@@ -104,7 +107,7 @@ try {
 
 
     Initialize-SonarCubeInstallerFromConfig -ScriptRoot $scriptRoot
-    Assert-SonarCubeInstallerPrerequisites
+    Assert-DockerPrerequisites
 
     $serverRoot = Resolve-SonarCubeInstallFolder -InstallRootFolder $InstallRootFolder -ServerNamePrefix $ServerNamePrefix
     $Port = Resolve-SonarCubeInstallerPort -ConfiguredPort $Port -BindAddress $BindAddress

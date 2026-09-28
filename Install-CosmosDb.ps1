@@ -63,8 +63,10 @@ try {
 
     $moduleFiles = @(
         '..\Common\Write-Utf8NoBom.ps1'
+        '..\Core\Configuration.ps1'
+        '..\Core\Docker.ps1'
+        '..\Core\Network.ps1'
         'Core\Configuration.ps1'
-        'Core\Docker.ps1'
         'Core\FileSystem.ps1'
         'Core\Network.ps1'
         'Templates\New-CosmosDbComposeFile.ps1'
@@ -85,10 +87,10 @@ try {
     Write-Host "Done loading module files." -ForegroundColor Green
 
     Initialize-CosmosDbInstallerFromConfig -ScriptRoot $scriptRoot
-    Assert-CosmosDbInstallerPrerequisites
+    Assert-DockerPrerequisites
 
     $serverRoot = Resolve-CosmosDbInstallFolder -InstallRootFolder $InstallRootFolder -ServerNamePrefix $ServerNamePrefix
-    $bindAddress = Resolve-CosmosDbBindAddressFromHostName -HostName $HostName -ConfigFileName 'config-cosmosdb.json'
+    $bindAddress = Resolve-BindAddressFromHostName -HostName $HostName -ConfigFileName 'config-cosmosdb.json'
     $Port = Resolve-CosmosDbInstallerPort -ConfiguredPort $Port -SettingName 'PORT'
     $HealthPort = Resolve-CosmosDbInstallerPort -ConfiguredPort $HealthPort -SettingName 'HEALTH_PORT'
     $ExplorerPort = Resolve-CosmosDbInstallerPort -ConfiguredPort $ExplorerPort -SettingName 'EXPLORER_PORT'
@@ -199,7 +201,7 @@ using var cosmosClient = new CosmosClient(accountEndpoint, accountKey, cosmosCli
     Write-CosmosDbWebUiShortcut -ServerRoot $serverRoot -ExplorerUrl $explorerUrl | Out-Null
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
-    Start-CosmosDbStack -ComposePath $composePath
+    Start-ComposeStack -ComposePath $composePath
 
     Write-Host ""
     Write-Host "Cosmos DB is starting. First start may take a few seconds." -ForegroundColor Green

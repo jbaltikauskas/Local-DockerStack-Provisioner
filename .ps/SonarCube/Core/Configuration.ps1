@@ -1,39 +1,3 @@
-function Get-SonarCubeRequiredConfigString () {
-    <#
-    .SYNOPSIS
-        Reads a required non-empty string from the SonarCube installer config file.
-    .DESCRIPTION
-        Returns the named property as a string and throws when it is absent or empty.
-    .NOTES
-        1. Read Name from Config.
-        2. Throw when missing or empty.
-        3. Return the string.
-    #>
-    [CmdletBinding()]
-    Param (
-        [Parameter(Mandatory = $true)]
-        [object]$Config,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Name,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$ConfigFileName
-    )
-
-    Process {
-
-        $value = [string]$Config.$Name
-        if ([string]::IsNullOrWhiteSpace($value)) {
-            throw "Required $ConfigFileName setting '$Name' is missing or empty."
-        }
-
-        return $value
-    }
-}
-
 function Assert-SonarCubeAdminPasswordPolicy () {
     <#
     .SYNOPSIS
@@ -109,19 +73,19 @@ function Initialize-SonarCubeInstallerFromConfig () {
             throw "Could not parse required installer configuration '$configPath': $($_.Exception.Message)"
         }
 
-        $portValue = Get-SonarCubeRequiredConfigString -Config $config -Name 'PORT' -ConfigFileName $configFileName
+        $portValue = Get-RequiredConfigString -Config $config -Name 'PORT' -ConfigFileName $configFileName
         $port = 0
         if (-not [int]::TryParse($portValue, [ref]$port) -or $port -lt 1 -or $port -gt 65535) {
             throw "$configFileName PORT must be an integer in range 1..65535."
         }
 
-        $bindAddress = Get-SonarCubeRequiredConfigString -Config $config -Name 'BIND_ADDRESS' -ConfigFileName $configFileName
+        $bindAddress = Get-RequiredConfigString -Config $config -Name 'BIND_ADDRESS' -ConfigFileName $configFileName
         if ($bindAddress -notin @('127.0.0.1', '0.0.0.0')) {
             throw "$configFileName BIND_ADDRESS must be 127.0.0.1 or 0.0.0.0."
         }
 
-        $sonarAdminUsername = Get-SonarCubeRequiredConfigString -Config $config -Name 'SONAR_ADMIN_USERNAME' -ConfigFileName $configFileName
-        $sonarAdminPassword = Get-SonarCubeRequiredConfigString -Config $config -Name 'SONAR_ADMIN_PASSWORD' -ConfigFileName $configFileName
+        $sonarAdminUsername = Get-RequiredConfigString -Config $config -Name 'SONAR_ADMIN_USERNAME' -ConfigFileName $configFileName
+        $sonarAdminPassword = Get-RequiredConfigString -Config $config -Name 'SONAR_ADMIN_PASSWORD' -ConfigFileName $configFileName
         if ($sonarAdminPassword -eq 'admin') {
             throw "$configFileName SONAR_ADMIN_PASSWORD must not be admin."
         }
@@ -139,12 +103,12 @@ function Initialize-SonarCubeInstallerFromConfig () {
             InstallRootFolder = $installRootFolder
             Port              = $port
             BindAddress       = $bindAddress
-            WebHost           = Get-SonarCubeRequiredConfigString -Config $config -Name 'WEB_HOST' -ConfigFileName $configFileName
-            SonarQubeImage    = Get-SonarCubeRequiredConfigString -Config $config -Name 'SONARQUBE_IMAGE' -ConfigFileName $configFileName
-            PostgresImage     = Get-SonarCubeRequiredConfigString -Config $config -Name 'POSTGRES_IMAGE' -ConfigFileName $configFileName
-            PostgresUser      = Get-SonarCubeRequiredConfigString -Config $config -Name 'POSTGRES_USER' -ConfigFileName $configFileName
-            PostgresPassword  = Get-SonarCubeRequiredConfigString -Config $config -Name 'POSTGRES_PASSWORD' -ConfigFileName $configFileName
-            PostgresDb        = Get-SonarCubeRequiredConfigString -Config $config -Name 'POSTGRES_DB' -ConfigFileName $configFileName
+            WebHost           = Get-RequiredConfigString -Config $config -Name 'WEB_HOST' -ConfigFileName $configFileName
+            SonarQubeImage    = Get-RequiredConfigString -Config $config -Name 'SONARQUBE_IMAGE' -ConfigFileName $configFileName
+            PostgresImage     = Get-RequiredConfigString -Config $config -Name 'POSTGRES_IMAGE' -ConfigFileName $configFileName
+            PostgresUser      = Get-RequiredConfigString -Config $config -Name 'POSTGRES_USER' -ConfigFileName $configFileName
+            PostgresPassword  = Get-RequiredConfigString -Config $config -Name 'POSTGRES_PASSWORD' -ConfigFileName $configFileName
+            PostgresDb        = Get-RequiredConfigString -Config $config -Name 'POSTGRES_DB' -ConfigFileName $configFileName
             SonarAdminUsername = $sonarAdminUsername
             SonarAdminPassword = $sonarAdminPassword
         }

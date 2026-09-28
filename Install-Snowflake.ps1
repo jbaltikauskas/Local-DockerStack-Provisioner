@@ -64,8 +64,10 @@ try {
 
     $moduleFiles = @(
         '..\Common\Write-Utf8NoBom.ps1'
+        '..\Core\Configuration.ps1'
+        '..\Core\Docker.ps1'
+        '..\Core\Network.ps1'
         'Core\Configuration.ps1'
-        'Core\Docker.ps1'
         'Core\FileSystem.ps1'
         'Core\Network.ps1'
         'Templates\New-SnowflakeComposeFile.ps1'
@@ -85,7 +87,7 @@ try {
     Write-Host "Done loading module files." -ForegroundColor Green
 
     Initialize-SnowflakeInstallerFromConfig -ScriptRoot $scriptRoot
-    Assert-SnowflakeInstallerPrerequisites
+    Assert-DockerPrerequisites
 
     $serverRoot = Resolve-SnowflakeInstallFolder -InstallRootFolder $InstallRootFolder -ServerNamePrefix $ServerNamePrefix
     $Port = Resolve-SnowflakeInstallerPort -ConfiguredPort $Port
@@ -158,7 +160,7 @@ try {
         -ServiceName $serviceName
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
-    Start-SnowflakeStack -ComposePath $composePath
+    Start-ComposeStack -ComposePath $composePath
 
     Write-Host ""
     Write-Host "Snowflake is starting. First start may take about a minute." -ForegroundColor Green

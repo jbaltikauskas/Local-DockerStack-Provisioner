@@ -63,8 +63,10 @@ try {
 
     $moduleFiles = @(
         '..\Common\Write-Utf8NoBom.ps1'
+        '..\Core\Configuration.ps1'
+        '..\Core\Docker.ps1'
+        '..\Core\Network.ps1'
         'Core\Configuration.ps1'
-        'Core\Docker.ps1'
         'Core\FileSystem.ps1'
         'Core\Network.ps1'
         'Templates\New-AspireDashboardComposeFile.ps1'
@@ -86,10 +88,10 @@ try {
 
 
     Initialize-AspireDashboardInstallerFromConfig -ScriptRoot $scriptRoot
-    Assert-AspireDashboardInstallerPrerequisites
+    Assert-DockerPrerequisites
 
     $serverRoot = Resolve-AspireDashboardInstallFolder -InstallRootFolder $InstallRootFolder -ServerNamePrefix $ServerNamePrefix
-    $bindAddress = Resolve-AspireDashboardBindAddressFromHostName -HostName $HostName -ConfigFileName 'config-aspire-dashboard.json'
+    $bindAddress = Resolve-BindAddressFromHostName -HostName $HostName -ConfigFileName 'config-aspire-dashboard.json'
     $DashboardUiPort = Resolve-AspireDashboardInstallerPort -ConfiguredPort $DashboardUiPort -SettingName 'DASHBOARD_UI_PORT'
     $OtlpGrpcPort = Resolve-AspireDashboardInstallerPort -ConfiguredPort $OtlpGrpcPort -SettingName 'OTLP_GRPC_PORT'
     $OtlpHttpPort = Resolve-AspireDashboardInstallerPort -ConfiguredPort $OtlpHttpPort -SettingName 'OTLP_HTTP_PORT'
@@ -159,7 +161,7 @@ try {
     Write-AspireDashboardWebUiShortcut -ServerRoot $serverRoot -DashboardUrl $dashboardUrl | Out-Null
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
-    Start-AspireDashboardStack -ComposePath $composePath
+    Start-ComposeStack -ComposePath $composePath
 
     Write-Host ""
     Write-Host "Aspire Dashboard is starting." -ForegroundColor Green

@@ -1,39 +1,3 @@
-function Get-PostgreSqlRequiredConfigString () {
-    <#
-    .SYNOPSIS
-        Reads a required non-empty string from the PostgreSQL installer config file.
-    .DESCRIPTION
-        Returns the named property as a string and throws when it is absent or empty.
-    .NOTES
-        1. Read Name from Config.
-        2. Throw when missing or empty.
-        3. Return the string.
-    #>
-    [CmdletBinding()]
-    Param (
-        [Parameter(Mandatory = $true)]
-        [object]$Config,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Name,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$ConfigFileName
-    )
-
-    Process {
-
-        $value = [string]$Config.$Name
-        if ([string]::IsNullOrWhiteSpace($value)) {
-            throw "Required $ConfigFileName setting '$Name' is missing or empty."
-        }
-
-        return $value
-    }
-}
-
 function Initialize-PostgreSqlInstallerFromConfig () {
     <#
     .SYNOPSIS
@@ -73,7 +37,7 @@ function Initialize-PostgreSqlInstallerFromConfig () {
             throw "Could not parse required installer configuration '$configPath': $($_.Exception.Message)"
         }
 
-        $portValue = Get-PostgreSqlRequiredConfigString -Config $config -Name 'PORT' -ConfigFileName $configFileName
+        $portValue = Get-RequiredConfigString -Config $config -Name 'PORT' -ConfigFileName $configFileName
         $port = 0
         if (-not [int]::TryParse($portValue, [ref]$port) -or $port -lt 1 -or $port -gt 65535) {
             throw "$configFileName PORT must be an integer in range 1..65535."
@@ -90,11 +54,11 @@ function Initialize-PostgreSqlInstallerFromConfig () {
         $settings = @{
             InstallRootFolder = $installRootFolder
             Port             = $port
-            HostName         = Get-PostgreSqlRequiredConfigString -Config $config -Name 'HOST_NAME' -ConfigFileName $configFileName
-            PostgreSqlImage  = Get-PostgreSqlRequiredConfigString -Config $config -Name 'POSTGRES_IMAGE' -ConfigFileName $configFileName
-            PostgreSqlUser   = Get-PostgreSqlRequiredConfigString -Config $config -Name 'POSTGRES_USER' -ConfigFileName $configFileName
-            PostgreSqlPassword = Get-PostgreSqlRequiredConfigString -Config $config -Name 'POSTGRES_PASSWORD' -ConfigFileName $configFileName
-            PostgreSqlDb     = Get-PostgreSqlRequiredConfigString -Config $config -Name 'POSTGRES_DB' -ConfigFileName $configFileName
+            HostName         = Get-RequiredConfigString -Config $config -Name 'HOST_NAME' -ConfigFileName $configFileName
+            PostgreSqlImage  = Get-RequiredConfigString -Config $config -Name 'POSTGRES_IMAGE' -ConfigFileName $configFileName
+            PostgreSqlUser   = Get-RequiredConfigString -Config $config -Name 'POSTGRES_USER' -ConfigFileName $configFileName
+            PostgreSqlPassword = Get-RequiredConfigString -Config $config -Name 'POSTGRES_PASSWORD' -ConfigFileName $configFileName
+            PostgreSqlDb     = Get-RequiredConfigString -Config $config -Name 'POSTGRES_DB' -ConfigFileName $configFileName
         }
 
         foreach ($setting in $settings.GetEnumerator()) {

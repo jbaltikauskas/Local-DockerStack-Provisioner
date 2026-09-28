@@ -1,39 +1,3 @@
-function Get-SnowflakeRequiredConfigString () {
-    <#
-    .SYNOPSIS
-        Reads a required non-empty string from the Snowflake installer config file.
-    .DESCRIPTION
-        Returns the named property as a string and throws when it is absent or empty.
-    .NOTES
-        1. Read Name from Config.
-        2. Throw when missing or empty.
-        3. Return the string.
-    #>
-    [CmdletBinding()]
-    Param (
-        [Parameter(Mandatory = $true)]
-        [object]$Config,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Name,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$ConfigFileName
-    )
-
-    Process {
-
-        $value = [string]$Config.$Name
-        if ([string]::IsNullOrWhiteSpace($value)) {
-            throw "Required $ConfigFileName setting '$Name' is missing or empty."
-        }
-
-        return $value
-    }
-}
-
 function Initialize-SnowflakeInstallerFromConfig () {
     <#
     .SYNOPSIS
@@ -73,7 +37,7 @@ function Initialize-SnowflakeInstallerFromConfig () {
             throw "Could not parse required installer configuration '$configPath': $($_.Exception.Message)"
         }
 
-        $portValue = Get-SnowflakeRequiredConfigString -Config $config -Name 'PORT' -ConfigFileName $configFileName
+        $portValue = Get-RequiredConfigString -Config $config -Name 'PORT' -ConfigFileName $configFileName
         $port = 0
         if (-not [int]::TryParse($portValue, [ref]$port) -or $port -lt 1 -or $port -gt 65535) {
             throw "$configFileName PORT must be an integer in range 1..65535."
@@ -90,15 +54,15 @@ function Initialize-SnowflakeInstallerFromConfig () {
         $settings = @{
             InstallRootFolder   = $installRootFolder
             Port               = $port
-            HostName           = Get-SnowflakeRequiredConfigString -Config $config -Name 'HOST_NAME' -ConfigFileName $configFileName
-            SnowflakeImage     = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_IMAGE' -ConfigFileName $configFileName
-            SnowflakeAccount   = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_ACCOUNT' -ConfigFileName $configFileName
-            SnowflakeUser      = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_USER' -ConfigFileName $configFileName
-            SnowflakePassword  = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_PASSWORD' -ConfigFileName $configFileName
-            SnowflakeWarehouse = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_WAREHOUSE' -ConfigFileName $configFileName
-            SnowflakeDatabase  = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_DATABASE' -ConfigFileName $configFileName
-            SnowflakeSchema    = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_SCHEMA' -ConfigFileName $configFileName
-            SnowflakeRole      = Get-SnowflakeRequiredConfigString -Config $config -Name 'SNOWFLAKE_ROLE' -ConfigFileName $configFileName
+            HostName           = Get-RequiredConfigString -Config $config -Name 'HOST_NAME' -ConfigFileName $configFileName
+            SnowflakeImage     = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_IMAGE' -ConfigFileName $configFileName
+            SnowflakeAccount   = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_ACCOUNT' -ConfigFileName $configFileName
+            SnowflakeUser      = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_USER' -ConfigFileName $configFileName
+            SnowflakePassword  = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_PASSWORD' -ConfigFileName $configFileName
+            SnowflakeWarehouse = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_WAREHOUSE' -ConfigFileName $configFileName
+            SnowflakeDatabase  = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_DATABASE' -ConfigFileName $configFileName
+            SnowflakeSchema    = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_SCHEMA' -ConfigFileName $configFileName
+            SnowflakeRole      = Get-RequiredConfigString -Config $config -Name 'SNOWFLAKE_ROLE' -ConfigFileName $configFileName
         }
 
         foreach ($setting in $settings.GetEnumerator()) {
