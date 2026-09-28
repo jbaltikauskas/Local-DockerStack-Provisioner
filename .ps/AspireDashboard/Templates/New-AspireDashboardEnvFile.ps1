@@ -4,7 +4,7 @@ function New-AspireDashboardEnvFile () {
         Writes non-secret Aspire Dashboard environment settings.
     .DESCRIPTION
         Always overwrites the installer-managed file.
-    .REMARKS
+    .NOTES
         1. Write DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS.
     #>
     [CmdletBinding()]
@@ -18,7 +18,7 @@ function New-AspireDashboardEnvFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

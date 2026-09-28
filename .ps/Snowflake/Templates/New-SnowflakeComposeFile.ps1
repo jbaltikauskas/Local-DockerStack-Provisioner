@@ -6,7 +6,7 @@ function New-SnowflakeComposeFile () {
         Renders the local Snowflake emulator service and persists its database
         file in the install-folder snowflake-dat directory. Runtime values come
         from one env file at config/.env.
-    .REMARKS
+    .NOTES
         1. Render the single-service compose file.
         2. Attach config/.env and mount snowflake-dat to /data for emulator database persistence.
         3. Write UTF-8 without BOM, replacing any existing file.
@@ -27,7 +27,7 @@ function New-SnowflakeComposeFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

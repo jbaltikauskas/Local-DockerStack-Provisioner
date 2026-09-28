@@ -5,7 +5,7 @@ function ConvertTo-SnowflakeContainerPrefix () {
     .DESCRIPTION
         Converts <prefix>-Snowflake-yyyyMMdd into snowflake-<prefix>-yyyyMMdd.
         Other values are sanitized and prefixed with snowflake-.
-    .REMARKS
+    .NOTES
         1. Detect and split the dated Snowflake install-folder pattern.
         2. Sanitize the prefix.
         3. Return snowflake-<prefix>-<date>.
@@ -18,7 +18,7 @@ function ConvertTo-SnowflakeContainerPrefix () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -42,7 +42,7 @@ function Resolve-SnowflakeInstallFolder () {
         Uses the install root folder and the required ServerNamePrefix script
         parameter, then always appends -Snowflake-yyyyMMdd. The prefix is never
         read from config-snowflake.json.
-    .REMARKS
+    .NOTES
         1. Validate ServerNamePrefix.
         2. Create the install root folder when it does not exist.
         3. Append -Snowflake-yyyyMMdd.
@@ -61,7 +61,7 @@ function Resolve-SnowflakeInstallFolder () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -99,7 +99,7 @@ function New-SnowflakeFolderLayout () {
     .DESCRIPTION
         Creates installer-managed files plus a snowflake-dat data folder used
         by the emulator bind mount. Returns a hashtable containing local paths.
-    .REMARKS
+    .NOTES
         1. Build required paths.
         2. Create each directory.
         3. Return paths.
@@ -112,7 +112,7 @@ function New-SnowflakeFolderLayout () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

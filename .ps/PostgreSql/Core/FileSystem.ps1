@@ -6,7 +6,7 @@ function ConvertTo-PostgreSqlContainerPrefix () {
         Converts <prefix>-PostgreSql-yyyyMMdd into
         postgresql-<prefix>-yyyyMMdd. Other values are sanitized and prefixed
         with postgresql-.
-    .REMARKS
+    .NOTES
         1. Detect and split the dated PostgreSQL install-folder pattern.
         2. Sanitize the prefix.
         3. Return postgresql-<prefix>-<date>.
@@ -19,7 +19,7 @@ function ConvertTo-PostgreSqlContainerPrefix () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -43,7 +43,7 @@ function Resolve-PostgreSqlInstallFolder () {
         Uses the install root folder and the required ServerNamePrefix script
         parameter, then always appends -PostgreSql-yyyyMMdd. The prefix is never
         read from config-postgresql.json.
-    .REMARKS
+    .NOTES
         1. Validate ServerNamePrefix.
         2. Create the install root folder when it does not exist.
         3. Append -PostgreSql-yyyyMMdd.
@@ -62,7 +62,7 @@ function Resolve-PostgreSqlInstallFolder () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -100,7 +100,7 @@ function New-PostgreSqlFolderLayout () {
     .DESCRIPTION
         PostgreSQL data uses a Docker named volume, so only installer-managed
         files are created on disk. Returns a hashtable containing local paths.
-    .REMARKS
+    .NOTES
         1. Build required paths.
         2. Create each directory.
         3. Return paths.
@@ -113,7 +113,7 @@ function New-PostgreSqlFolderLayout () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

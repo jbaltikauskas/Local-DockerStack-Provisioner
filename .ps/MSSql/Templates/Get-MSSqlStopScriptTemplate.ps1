@@ -4,7 +4,7 @@ function Get-MSSqlStopScriptTemplate () {
         Returns the generated Stop-MSSql.ps1 script template.
     .DESCRIPTION
         The returned script stops the existing local compose containers without deleting the data folder.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

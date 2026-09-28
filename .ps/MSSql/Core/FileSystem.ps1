@@ -5,7 +5,7 @@ function ConvertTo-MSSqlContainerPrefix () {
     .DESCRIPTION
         Converts <prefix>-MSSql-yyyyMMdd into mssql-<prefix>-yyyyMMdd.
         Other values are sanitized and prefixed with mssql-.
-    .REMARKS
+    .NOTES
         1. Detect and split the dated MSSql install-folder pattern.
         2. Sanitize the prefix.
         3. Return mssql-<prefix>-<date>.
@@ -18,7 +18,7 @@ function ConvertTo-MSSqlContainerPrefix () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -42,7 +42,7 @@ function Resolve-MSSqlInstallFolder () {
         Uses the install root folder and the required ServerNamePrefix script
         parameter, then always appends -MSSql-yyyyMMdd. The prefix is never read
         from config-mssql.json.
-    .REMARKS
+    .NOTES
         1. Validate ServerNamePrefix.
         2. Create the install root folder when it does not exist.
         3. Append -MSSql-yyyyMMdd.
@@ -61,7 +61,7 @@ function Resolve-MSSqlInstallFolder () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -99,7 +99,7 @@ function New-MSSqlFolderLayout () {
     .DESCRIPTION
         MSSQL data uses the local mssql_dev_data folder beside docker-compose.yml.
         Returns a hashtable containing local config and data paths.
-    .REMARKS
+    .NOTES
         1. Build required paths.
         2. Create each directory.
         3. Return paths.
@@ -112,7 +112,7 @@ function New-MSSqlFolderLayout () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

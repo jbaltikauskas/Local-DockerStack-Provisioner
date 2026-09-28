@@ -4,7 +4,7 @@ function Get-SonarCubeRequiredConfigString () {
         Reads a required non-empty string from the SonarCube installer config file.
     .DESCRIPTION
         Returns the named property as a string and throws when it is absent or empty.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Throw when missing or empty.
         3. Return the string.
@@ -41,7 +41,7 @@ function Assert-SonarCubeAdminPasswordPolicy () {
     .DESCRIPTION
         Throws when the password would fail SonarQube first-login password
         requirements. The password value is never logged.
-    .REMARKS
+    .NOTES
         1. Check length and required character classes.
         2. Throw a non-secret policy message when any check fails.
     #>
@@ -77,7 +77,7 @@ function Initialize-SonarCubeInstallerFromConfig () {
     .DESCRIPTION
         Requires and validates all runtime settings. Values are written to
         script scope and cannot be overridden with installer parameters.
-    .REMARKS
+    .NOTES
         1. Require and parse config-sonarcube.json.
         2. Read and validate all required settings.
         3. Write validated values to script scope.
@@ -90,7 +90,7 @@ function Initialize-SonarCubeInstallerFromConfig () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

@@ -5,7 +5,7 @@ function Initialize-SonarCubeSecrets () {
     .DESCRIPTION
         Stores the configured PostgreSQL credentials, SonarQube JDBC URL, and
         SonarQube admin credentials, then locks the file ACL.
-    .REMARKS
+    .NOTES
         1. Preserve an existing secrets file.
         2. Write the configured PostgreSQL credentials.
         3. Write a credential-bearing JDBC URL for SonarQube.
@@ -77,7 +77,7 @@ function ConvertTo-SonarCubePostgreSqlIdentifier () {
     .DESCRIPTION
         Returns a double-quoted PostgreSQL identifier with embedded double
         quotes escaped.
-    .REMARKS
+    .NOTES
         1. Double embedded quote characters.
         2. Wrap the value in double quotes.
     #>
@@ -89,7 +89,7 @@ function ConvertTo-SonarCubePostgreSqlIdentifier () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -105,7 +105,7 @@ function ConvertTo-SonarCubePostgreSqlLiteral () {
     .DESCRIPTION
         Returns a single-quoted PostgreSQL string literal with embedded single
         quotes escaped.
-    .REMARKS
+    .NOTES
         1. Double embedded apostrophe characters.
         2. Wrap the value in apostrophes.
     #>
@@ -129,7 +129,7 @@ function Invoke-SonarCubePostgreSqlCommand () {
     .DESCRIPTION
         Executes psql through docker compose exec and returns exit code and
         output without exposing SQL in thrown errors.
-    .REMARKS
+    .NOTES
         1. Temporarily disable native command exceptions.
         2. Execute docker compose exec psql.
         3. Return command result metadata.
@@ -183,7 +183,7 @@ function Repair-SonarCubePostgreSqlPassword () {
         Waits for PostgreSQL local psql access inside the container, verifies
         that the configured role exists, then updates its password. This repairs
         existing Docker volumes whose role password differs from current config.
-    .REMARKS
+    .NOTES
         1. Wait until psql can connect inside the database container.
         2. Fail clearly when the configured PostgreSQL role is missing.
         3. Alter the configured role password.
@@ -272,7 +272,7 @@ function Get-SonarCubeWebApiErrorMessage () {
     .DESCRIPTION
         Extracts the HTTP status code and exception message without reading or
         logging request bodies.
-    .REMARKS
+    .NOTES
         1. Read status code when present.
         2. Return a compact diagnostic string.
     #>
@@ -300,7 +300,7 @@ function Wait-SonarCubeWebApiReady () {
     .DESCRIPTION
         Polls api/system/status until SonarQube is ready or the shared installer
         deadline is reached.
-    .REMARKS
+    .NOTES
         1. Build the status URL.
         2. Poll until status is UP.
         3. Throw with the last non-secret error on timeout.
@@ -320,7 +320,7 @@ function Wait-SonarCubeWebApiReady () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -357,7 +357,7 @@ function Test-SonarCubeAdminCredential () {
     .DESCRIPTION
         Calls api/authentication/validate with Basic authentication and returns
         true only when SonarQube reports the credential is valid.
-    .REMARKS
+    .NOTES
         1. Build Basic authentication from the configured credential.
         2. Call the validation endpoint.
         3. Return the endpoint's Boolean result.
@@ -404,7 +404,7 @@ function Set-SonarCubeAdminPassword () {
         the default password to the configured password. The configured
         password is never printed. If the configured credential already works,
         the function returns success.
-    .REMARKS
+    .NOTES
         1. Wait for api/system/status to return UP.
         2. POST api/users/change_password with the default admin password.
         3. Treat an already-configured admin credential as success.
@@ -494,7 +494,7 @@ function Get-SonarCubeBasicAuthHeader () {
         Builds a Basic authentication header for SonarQube Web API calls.
     .DESCRIPTION
         Returns a hashtable with an Authorization header. Does not log credentials.
-    .REMARKS
+    .NOTES
         1. Encode login:password as Base64.
         2. Return the Authorization header hashtable.
     #>
@@ -526,7 +526,7 @@ function New-SonarCubeGlobalAnalysisToken () {
         Authenticates as the configured admin, revokes any existing token with
         the same name, then posts api/user_tokens/generate. Returns the token
         value once; the value is never written to the host.
-    .REMARKS
+    .NOTES
         1. Build Web URL and Basic auth headers.
         2. Revoke an existing token with TokenName when present.
         3. POST api/user_tokens/generate with type GLOBAL_ANALYSIS_TOKEN and no expiration.
@@ -619,7 +619,7 @@ function Write-SonarCubeAnalysisSecrets () {
     .DESCRIPTION
         Updates or appends SONAR_TOKEN without printing the secret value, then
         re-locks the file ACL. Removes any legacy SONAR_PROJECT_KEY line.
-    .REMARKS
+    .NOTES
         1. Read existing secrets content when present.
         2. Replace or append the SONAR_TOKEN line.
         3. Write UTF-8 without BOM and lock the ACL.
@@ -665,7 +665,7 @@ function Set-SonarCubeAnalysisExclusions () {
         Reads existing instance-level sonar.exclusions, appends any missing
         required patterns, and posts api/settings/set once. Does not log
         credentials.
-    .REMARKS
+    .NOTES
         1. Build Web URL and Basic auth headers.
         2. GET existing sonar.exclusions values.
         3. Merge required patterns without duplicates.

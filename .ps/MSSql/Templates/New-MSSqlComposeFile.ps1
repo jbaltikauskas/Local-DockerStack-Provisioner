@@ -6,7 +6,7 @@ function New-MSSqlComposeFile () {
         Maps MSSQL data to the local mssql_dev_data folder beside the compose
         file. Non-secret settings come from config/.env; the SA password comes
         from config/.env.secrets.
-    .REMARKS
+    .NOTES
         1. Render the single-service compose file.
         2. Write UTF-8 without BOM, replacing any existing file.
     #>
@@ -34,7 +34,7 @@ function New-MSSqlComposeFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

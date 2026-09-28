@@ -5,7 +5,7 @@ function New-AspireDashboardComposeFile () {
     .DESCRIPTION
         Maps the dashboard UI, OTLP gRPC, and OTLP HTTP host ports to the
         Aspire Dashboard container ports. Environment settings come from config/.env.
-    .REMARKS
+    .NOTES
         1. Render the single-service compose file.
         2. Write UTF-8 without BOM, replacing any existing file.
     #>
@@ -45,7 +45,7 @@ function New-AspireDashboardComposeFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

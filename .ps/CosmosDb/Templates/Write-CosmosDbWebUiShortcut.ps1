@@ -4,7 +4,7 @@ function Write-CosmosDbWebUiShortcut () {
         Writes a Windows Internet Shortcut for the Cosmos DB Data Explorer.
     .DESCRIPTION
         Always refreshes CosmosDb.url with the configured Data Explorer URL.
-    .REMARKS
+    .NOTES
         1. Write CosmosDb.url.
         2. Return the path.
     #>
@@ -20,7 +20,7 @@ function Write-CosmosDbWebUiShortcut () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

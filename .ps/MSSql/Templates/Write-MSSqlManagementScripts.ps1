@@ -5,7 +5,7 @@ function Write-MSSqlManagementScripts () {
     .DESCRIPTION
         Replaces the connection string placeholder and always overwrites generated
         PowerShell scripts and batch launchers.
-    .REMARKS
+    .NOTES
         1. Render Start and Stop templates.
         2. Replace __CONNECTION_STRING__ in the Start template.
         3. Render batch launchers for the PowerShell scripts.
@@ -27,7 +27,7 @@ function Write-MSSqlManagementScripts () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

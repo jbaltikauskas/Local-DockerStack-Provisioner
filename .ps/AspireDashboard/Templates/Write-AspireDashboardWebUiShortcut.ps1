@@ -4,7 +4,7 @@ function Write-AspireDashboardWebUiShortcut () {
         Writes a Windows Internet Shortcut for the Aspire Dashboard Web UI.
     .DESCRIPTION
         Always refreshes AspireDashboard.url with the configured dashboard URL.
-    .REMARKS
+    .NOTES
         1. Write AspireDashboard.url.
         2. Return the path.
     #>
@@ -20,7 +20,7 @@ function Write-AspireDashboardWebUiShortcut () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

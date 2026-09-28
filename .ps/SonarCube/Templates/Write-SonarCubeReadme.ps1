@@ -4,7 +4,7 @@ function Write-SonarCubeReadme () {
         Writes the install-folder README.md.
     .DESCRIPTION
         Documents login, folder layout, and daily management commands.
-    .REMARKS
+    .NOTES
         1. Render and overwrite README.md.
     #>
     [CmdletBinding()]
@@ -27,7 +27,7 @@ function Write-SonarCubeReadme () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

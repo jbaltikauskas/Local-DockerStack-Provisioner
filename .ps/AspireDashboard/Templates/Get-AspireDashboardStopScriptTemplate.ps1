@@ -4,7 +4,7 @@ function Get-AspireDashboardStopScriptTemplate () {
         Returns the generated Stop-AspireDashboard.ps1 script template.
     .DESCRIPTION
         The returned script stops the existing local compose containers.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

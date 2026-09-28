@@ -4,7 +4,7 @@ function Get-PostgreSqlStartScriptTemplate () {
         Returns the generated Start-PostgreSql.bat script template.
     .DESCRIPTION
         The returned batch script starts the existing local compose containers and prints the connection string.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

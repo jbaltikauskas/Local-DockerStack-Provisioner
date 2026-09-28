@@ -4,7 +4,7 @@ function New-SonarCubeEnvFile () {
         Writes non-secret SonarQube and PostgreSQL environment settings.
     .DESCRIPTION
         Always overwrites the installer-managed file.
-    .REMARKS
+    .NOTES
         1. Write the database name.
     #>
     [CmdletBinding()]
@@ -19,7 +19,7 @@ function New-SonarCubeEnvFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

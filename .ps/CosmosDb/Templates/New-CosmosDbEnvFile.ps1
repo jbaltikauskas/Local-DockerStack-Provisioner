@@ -5,7 +5,7 @@ function New-CosmosDbEnvFile () {
     .DESCRIPTION
         Always overwrites the installer-managed config\.env and config\account.key
         files. Cosmos DB uses one env file plus a mounted key file.
-    .REMARKS
+    .NOTES
         1. Write emulator runtime settings to .env.
         2. Write ACCOUNT_KEY to account.key for KEY_FILE.
     #>

@@ -5,7 +5,7 @@ function New-SnowflakeEnvFile () {
     .DESCRIPTION
         Always overwrites the installer-managed config\.env file. Snowflake uses
         one env file for both emulator runtime values and connection settings.
-    .REMARKS
+    .NOTES
         1. Write DB_PATH plus Snowflake account, user, password, warehouse, database, schema, and role.
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute(

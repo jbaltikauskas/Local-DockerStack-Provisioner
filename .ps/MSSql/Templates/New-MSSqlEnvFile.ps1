@@ -5,7 +5,7 @@ function New-MSSqlEnvFile () {
     .DESCRIPTION
         Always overwrites the installer-managed file. The SA password is kept
         separately in config\.env.secrets and is never written here.
-    .REMARKS
+    .NOTES
         1. Write ACCEPT_EULA and MSSQL_PID.
     #>
     [CmdletBinding()]
@@ -20,7 +20,7 @@ function New-MSSqlEnvFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

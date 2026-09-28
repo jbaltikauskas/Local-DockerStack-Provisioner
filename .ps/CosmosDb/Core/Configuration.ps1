@@ -4,7 +4,7 @@ function Get-CosmosDbRequiredConfigString () {
         Reads a required non-empty string from the Cosmos DB installer config file.
     .DESCRIPTION
         Returns the named property as a string and throws when it is absent or empty.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Throw when missing or empty.
         3. Return the string.
@@ -40,7 +40,7 @@ function Get-CosmosDbRequiredConfigPort () {
         Reads and validates a required TCP port from config-cosmosdb.json.
     .DESCRIPTION
         Returns the named property as an integer in the valid TCP port range.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Parse as integer.
         3. Validate range.
@@ -78,7 +78,7 @@ function Initialize-CosmosDbInstallerFromConfig () {
     .DESCRIPTION
         Requires and validates all runtime settings. Values are written to
         script scope and cannot be overridden with installer parameters.
-    .REMARKS
+    .NOTES
         1. Require and parse config-cosmosdb.json.
         2. Read and validate all required settings.
         3. Write validated values to script scope.
@@ -91,7 +91,7 @@ function Initialize-CosmosDbInstallerFromConfig () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

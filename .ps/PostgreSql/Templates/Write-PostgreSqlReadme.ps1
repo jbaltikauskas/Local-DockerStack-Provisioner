@@ -4,7 +4,7 @@ function Write-PostgreSqlReadme () {
         Writes the install-folder README.md.
     .DESCRIPTION
         Documents connection info, CSharp examples, folder layout, and daily management commands.
-    .REMARKS
+    .NOTES
         1. Render and overwrite README.md.
         2. Omit parameter tracing because rendered connection strings include secrets.
     #>

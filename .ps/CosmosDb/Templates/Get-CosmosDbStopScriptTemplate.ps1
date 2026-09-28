@@ -4,7 +4,7 @@ function Get-CosmosDbStopScriptTemplate () {
         Returns the generated Stop-CosmosDb.ps1 script template.
     .DESCRIPTION
         The returned script stops the existing local compose containers without deleting cosmos-data.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

@@ -4,7 +4,7 @@ function Get-AspireDashboardStartScriptTemplate () {
         Returns the generated Start-AspireDashboard.ps1 script template.
     .DESCRIPTION
         The returned script starts the existing local compose containers and prints the dashboard endpoints.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

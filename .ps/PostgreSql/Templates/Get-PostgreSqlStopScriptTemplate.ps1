@@ -4,7 +4,7 @@ function Get-PostgreSqlStopScriptTemplate () {
         Returns the generated Stop-PostgreSql.bat script template.
     .DESCRIPTION
         The returned batch script stops the existing local compose containers without deleting the data volume.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

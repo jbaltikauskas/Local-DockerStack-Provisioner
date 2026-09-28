@@ -5,7 +5,7 @@ function New-SonarCubeComposeFile () {
     .DESCRIPTION
         Uses unique Docker named volumes for each install. SonarSource requires
         named volumes instead of bind mounts for SonarQube persistence.
-    .REMARKS
+    .NOTES
         1. Render the two-service compose file.
         2. Write UTF-8 without BOM, replacing any existing file.
     #>
@@ -49,7 +49,7 @@ function New-SonarCubeComposeFile () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

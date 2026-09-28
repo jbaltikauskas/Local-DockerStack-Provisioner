@@ -4,7 +4,7 @@ function Initialize-MSSqlSecrets () {
         Creates config\.env.secrets when it does not exist.
     .DESCRIPTION
         Stores the SA password and locks the file ACL to the current Windows user.
-    .REMARKS
+    .NOTES
         1. Preserve an existing secrets file.
         2. Write the SA password.
         3. Lock permissions to the current Windows user.

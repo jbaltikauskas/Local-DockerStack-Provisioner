@@ -4,7 +4,7 @@ function Get-PostgreSqlRequiredConfigString () {
         Reads a required non-empty string from the PostgreSQL installer config file.
     .DESCRIPTION
         Returns the named property as a string and throws when it is absent or empty.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Throw when missing or empty.
         3. Return the string.
@@ -41,7 +41,7 @@ function Initialize-PostgreSqlInstallerFromConfig () {
     .DESCRIPTION
         Requires and validates all runtime settings. Values are written to
         script scope and cannot be overridden with installer parameters.
-    .REMARKS
+    .NOTES
         1. Require and parse config-postgresql.json.
         2. Read and validate all required settings.
         3. Write validated values to script scope.
@@ -54,7 +54,7 @@ function Initialize-PostgreSqlInstallerFromConfig () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

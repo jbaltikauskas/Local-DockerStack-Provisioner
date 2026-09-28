@@ -4,7 +4,7 @@ function Test-MSSqlTcpPortAvailable () {
         Returns true when a TCP port has no local listener.
     .DESCRIPTION
         Checks active TCP listeners on the Windows host.
-    .REMARKS
+    .NOTES
         1. Query active listeners.
         2. Return whether Port is absent.
     #>
@@ -16,7 +16,7 @@ function Test-MSSqlTcpPortAvailable () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -32,7 +32,7 @@ function Resolve-MSSqlBindAddressFromHostName () {
         Maps HOST_NAME from config-mssql.json to a Docker port-bind address.
     .DESCRIPTION
         localhost resolves to 127.0.0.1. Literal 127.0.0.1 and 0.0.0.0 pass through.
-    .REMARKS
+    .NOTES
         1. Map localhost to 127.0.0.1.
         2. Accept 127.0.0.1 and 0.0.0.0.
         3. Throw for other values.
@@ -49,7 +49,7 @@ function Resolve-MSSqlBindAddressFromHostName () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -71,7 +71,7 @@ function Resolve-MSSqlInstallerPort () {
         Validates the MSSQL port loaded from config-mssql.json.
     .DESCRIPTION
         Returns the configured port when available and throws when it is already in use.
-    .REMARKS
+    .NOTES
         1. Check the configured port.
         2. Throw when busy.
         3. Return the configured port.
@@ -84,7 +84,7 @@ function Resolve-MSSqlInstallerPort () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

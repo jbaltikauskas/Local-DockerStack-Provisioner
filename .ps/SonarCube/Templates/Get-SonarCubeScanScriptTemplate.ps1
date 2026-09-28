@@ -9,7 +9,7 @@ function Get-SonarCubeScanScriptTemplate () {
         plus optional git branch suffix. It prefers the first *.slnx in the
         current directory, then the first *.sln, then in the [src] folder,
         then prompts for a path.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

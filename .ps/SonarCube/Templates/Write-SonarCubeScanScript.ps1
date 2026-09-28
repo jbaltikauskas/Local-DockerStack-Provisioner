@@ -6,7 +6,7 @@ function Write-SonarCubeScanScript () {
         Embeds the Web UI URL and analysis token into Scan-SonarCube.ps1 so the
         file can be copied into application projects. Project key is computed
         at scan time from the solution name and git branch.
-    .REMARKS
+    .NOTES
         1. Escape single quotes in the embedded token.
         2. Render the scan script template.
         3. Write Scan-SonarCube.ps1.

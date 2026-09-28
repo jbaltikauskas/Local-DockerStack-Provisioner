@@ -4,7 +4,7 @@ function Test-CosmosDbTcpPortAvailable () {
         Returns true when a TCP port has no local listener.
     .DESCRIPTION
         Checks active TCP listeners on the Windows host.
-    .REMARKS
+    .NOTES
         1. Query active listeners.
         2. Return whether Port is absent.
     #>
@@ -16,7 +16,7 @@ function Test-CosmosDbTcpPortAvailable () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -32,7 +32,7 @@ function Resolve-CosmosDbBindAddressFromHostName () {
         Maps HOST_NAME from config-cosmosdb.json to a Docker port-bind address.
     .DESCRIPTION
         localhost resolves to 127.0.0.1. Literal 127.0.0.1 and 0.0.0.0 pass through.
-    .REMARKS
+    .NOTES
         1. Map localhost to 127.0.0.1.
         2. Accept 127.0.0.1 and 0.0.0.0.
         3. Throw for other values.
@@ -49,7 +49,7 @@ function Resolve-CosmosDbBindAddressFromHostName () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -71,7 +71,7 @@ function Resolve-CosmosDbInstallerPort () {
         Validates a Cosmos DB port loaded from config-cosmosdb.json.
     .DESCRIPTION
         Returns the configured port when available and throws when it is already in use.
-    .REMARKS
+    .NOTES
         1. Check the configured port.
         2. Throw when busy.
         3. Return the configured port.
@@ -88,7 +88,7 @@ function Resolve-CosmosDbInstallerPort () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -107,7 +107,7 @@ function Assert-CosmosDbDistinctPorts () {
         Verifies the configured Cosmos DB host ports are distinct.
     .DESCRIPTION
         Docker cannot bind multiple container ports to the same host port.
-    .REMARKS
+    .NOTES
         1. Group configured ports.
         2. Throw when any host port is repeated.
     #>
@@ -119,7 +119,7 @@ function Assert-CosmosDbDistinctPorts () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

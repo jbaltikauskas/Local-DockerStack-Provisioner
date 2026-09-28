@@ -4,7 +4,7 @@ function Assert-MSSqlInstallerPrerequisites () {
         Verifies Docker Engine and Docker Compose v2.
     .DESCRIPTION
         Throws when Docker is missing, stopped, or Compose v2 is unavailable.
-    .REMARKS
+    .NOTES
         1. Resolve docker.
         2. Query Docker Engine.
         3. Query Docker Compose.
@@ -39,7 +39,7 @@ function Start-MSSqlStack () {
         Pulls and starts the MSSQL compose stack.
     .DESCRIPTION
         Runs docker compose pull and up -d, then prints current service state.
-    .REMARKS
+    .NOTES
         1. Pull images.
         2. Start services.
         3. Print compose status.
@@ -52,7 +52,7 @@ function Start-MSSqlStack () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

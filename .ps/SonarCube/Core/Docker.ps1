@@ -4,7 +4,7 @@ function Assert-SonarCubeInstallerPrerequisites () {
         Verifies Docker Engine and Docker Compose v2.
     .DESCRIPTION
         Throws when Docker is missing, stopped, or Compose v2 is unavailable.
-    .REMARKS
+    .NOTES
         1. Resolve docker.
         2. Query Docker Engine.
         3. Query Docker Compose.
@@ -39,7 +39,7 @@ function Set-SonarCubeDockerVirtualMemory () {
         Sets vm.max_map_count for SonarQube inside Docker Desktop.
     .DESCRIPTION
         Runs sysctl in the docker-desktop WSL distribution when WSL is available.
-    .REMARKS
+    .NOTES
         1. Resolve wsl.exe.
         2. Set vm.max_map_count.
         3. Throw when the command fails.
@@ -66,7 +66,7 @@ function Start-SonarCubeStack () {
         Pulls and starts the SonarQube compose stack.
     .DESCRIPTION
         Runs docker compose pull and up -d, then prints current service state.
-    .REMARKS
+    .NOTES
         1. Pull images.
         2. Start services.
         3. Print compose status.
@@ -79,7 +79,7 @@ function Start-SonarCubeStack () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -105,7 +105,7 @@ function Start-SonarCubeDatabaseService () {
     .DESCRIPTION
         Starts the database before the full SonarQube stack so existing
         PostgreSQL volumes can be repaired before SonarQube connects.
-    .REMARKS
+    .NOTES
         1. Pull images.
         2. Start the PostgreSQL service.
         3. Print compose status.
@@ -122,7 +122,7 @@ function Start-SonarCubeDatabaseService () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -148,7 +148,7 @@ function Start-SonarCubeApplicationServices () {
     .DESCRIPTION
         Runs docker compose up -d after the PostgreSQL password repair step,
         then prints current service state.
-    .REMARKS
+    .NOTES
         1. Start all services.
         2. Print compose status.
     #>
@@ -160,7 +160,7 @@ function Start-SonarCubeApplicationServices () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

@@ -4,7 +4,7 @@ function Write-PostgreSqlManagementScripts () {
         Writes generated Start and Stop scripts.
     .DESCRIPTION
         Replaces the connection string placeholder and always overwrites generated batch scripts.
-    .REMARKS
+    .NOTES
         1. Render Start and Stop templates.
         2. Replace __CONNECTION_STRING__ in the Start template.
         3. Write each generated file.
@@ -33,7 +33,7 @@ function Write-PostgreSqlManagementScripts () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

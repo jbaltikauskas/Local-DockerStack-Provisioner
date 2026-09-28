@@ -4,7 +4,7 @@ function Get-SonarCubeStartScriptTemplate () {
         Returns the generated Start-SonarCube.ps1 script template.
     .DESCRIPTION
         The returned script starts the existing local compose containers and optionally opens the Web UI.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

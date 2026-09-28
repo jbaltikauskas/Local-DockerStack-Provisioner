@@ -4,7 +4,7 @@ function Write-SonarCubeManagementScripts () {
         Writes generated Start and Stop scripts.
     .DESCRIPTION
         Replaces the Web UI URL placeholder and always overwrites generated scripts.
-    .REMARKS
+    .NOTES
         1. Render Start and Stop templates.
         2. Write each generated file.
     #>
@@ -20,7 +20,7 @@ function Write-SonarCubeManagementScripts () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

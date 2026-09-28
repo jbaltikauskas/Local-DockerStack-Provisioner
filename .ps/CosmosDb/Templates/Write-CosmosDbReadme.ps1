@@ -5,7 +5,7 @@ function Write-CosmosDbReadme () {
     .DESCRIPTION
         Documents gateway, explorer, and health endpoints, connection examples,
         folder layout, and daily management commands.
-    .REMARKS
+    .NOTES
         1. Render and overwrite README.md.
         2. Omit parameter tracing because rendered connection strings include secrets.
     #>

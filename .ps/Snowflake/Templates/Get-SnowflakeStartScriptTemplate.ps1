@@ -4,7 +4,7 @@ function Get-SnowflakeStartScriptTemplate () {
         Returns the generated Start-Snowflake.ps1 script template.
     .DESCRIPTION
         The returned script starts the existing local compose containers and prints the endpoint.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]

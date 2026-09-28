@@ -8,7 +8,7 @@ function Install-SonarCubeDotNetScanner () {
         `dotnet sonarscanner --version`. That command may exit non-zero
         after printing the version banner because the scanner still expects
         begin/end; verification succeeds when the version banner is present.
-    .REMARKS
+    .NOTES
         1. Resolve the dotnet CLI.
         2. Ensure %USERPROFILE%\.dotnet\tools is on PATH for this session.
         3. Install or update the global dotnet-sonarscanner tool.

@@ -4,7 +4,7 @@ function Get-AspireDashboardRequiredConfigString () {
         Reads a required non-empty string from the Aspire Dashboard installer config file.
     .DESCRIPTION
         Returns the named property as a string and throws when it is absent or empty.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Throw when missing or empty.
         3. Return the string.
@@ -40,7 +40,7 @@ function Get-AspireDashboardRequiredConfigBool () {
         Reads a required Boolean from the Aspire Dashboard installer config file.
     .DESCRIPTION
         Returns the named property as a Boolean and throws when it is absent or not Boolean-like.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Parse as Boolean.
         3. Return the Boolean.
@@ -86,7 +86,7 @@ function Get-AspireDashboardRequiredConfigPort () {
         Reads and validates a required TCP port from config-aspire-dashboard.json.
     .DESCRIPTION
         Returns the named property as an integer in the valid TCP port range.
-    .REMARKS
+    .NOTES
         1. Read Name from Config.
         2. Parse as integer.
         3. Validate range.
@@ -124,7 +124,7 @@ function Initialize-AspireDashboardInstallerFromConfig () {
     .DESCRIPTION
         Requires and validates all runtime settings. Values are written to
         script scope and cannot be overridden with installer parameters.
-    .REMARKS
+    .NOTES
         1. Require and parse config-aspire-dashboard.json.
         2. Read and validate all required settings.
         3. Write validated values to script scope.
@@ -137,7 +137,7 @@ function Initialize-AspireDashboardInstallerFromConfig () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

@@ -4,7 +4,7 @@ function Write-SonarCubeWebUiShortcut () {
         Writes a Windows Internet Shortcut for the SonarQube Web UI.
     .DESCRIPTION
         Always refreshes SonarCube.url with the configured host and port.
-    .REMARKS
+    .NOTES
         1. Build the Web UI URL.
         2. Write SonarCube.url.
         3. Return the path.
@@ -25,7 +25,7 @@ function Write-SonarCubeWebUiShortcut () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

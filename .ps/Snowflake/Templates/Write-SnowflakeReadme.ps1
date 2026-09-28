@@ -5,7 +5,7 @@ function Write-SnowflakeReadme () {
     .DESCRIPTION
         Documents endpoint info, connection examples, compose shape, folder layout,
         and daily management commands.
-    .REMARKS
+    .NOTES
         1. Render and overwrite README.md.
         2. Omit parameter tracing because rendered connection strings include secrets.
     #>

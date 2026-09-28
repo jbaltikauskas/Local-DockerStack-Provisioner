@@ -5,7 +5,7 @@ function Write-CosmosDbManagementScripts () {
     .DESCRIPTION
         Replaces endpoint placeholders and always overwrites generated
         PowerShell scripts and batch launchers.
-    .REMARKS
+    .NOTES
         1. Render Start and Stop templates.
         2. Replace endpoint placeholders in the Start template.
         3. Render batch launchers for the PowerShell scripts.
@@ -31,7 +31,7 @@ function Write-CosmosDbManagementScripts () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

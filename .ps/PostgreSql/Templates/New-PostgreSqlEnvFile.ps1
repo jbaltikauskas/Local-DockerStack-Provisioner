@@ -5,7 +5,7 @@ function New-PostgreSqlEnvFile () {
     .DESCRIPTION
         Always overwrites the installer-managed file with all environment
         variables required by the PostgreSQL container.
-    .REMARKS
+    .NOTES
         1. Write POSTGRES_USER, POSTGRES_PASSWORD, and POSTGRES_DB.
     #>
     [CmdletBinding()]

@@ -5,7 +5,7 @@ function ConvertTo-SonarCubeContainerPrefix () {
     .DESCRIPTION
         Converts <prefix>-SonarCube-yyyyMMdd into sonarcube-<prefix>-yyyyMMdd.
         Other values are sanitized and prefixed with sonarcube-.
-    .REMARKS
+    .NOTES
         1. Detect and split the dated SonarCube install-folder pattern.
         2. Sanitize the prefix.
         3. Return sonarcube-<prefix>-<date>.
@@ -18,7 +18,7 @@ function ConvertTo-SonarCubeContainerPrefix () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -42,7 +42,7 @@ function Resolve-SonarCubeInstallFolder () {
         Uses the install root folder and the required ServerNamePrefix script
         parameter, then always appends -SonarCube-yyyyMMdd. The prefix is never
         read from config-sonarcube.json.
-    .REMARKS
+    .NOTES
         1. Validate ServerNamePrefix.
         2. Create the install root folder when it does not exist.
         3. Append -SonarCube-yyyyMMdd.
@@ -61,7 +61,7 @@ function Resolve-SonarCubeInstallFolder () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -99,7 +99,7 @@ function New-SonarCubeFolderLayout () {
     .DESCRIPTION
         SonarQube and PostgreSQL data use unique Docker named volumes created
         by Docker Compose. Returns a hashtable containing local config paths.
-    .REMARKS
+    .NOTES
         1. Build required paths.
         2. Create each directory.
         3. Return paths.
@@ -112,7 +112,7 @@ function New-SonarCubeFolderLayout () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

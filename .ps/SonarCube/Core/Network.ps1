@@ -4,7 +4,7 @@ function Test-SonarCubeTcpPortAvailable () {
         Returns true when a TCP port has no local listener.
     .DESCRIPTION
         Checks active TCP listeners on the Windows host.
-    .REMARKS
+    .NOTES
         1. Query active listeners.
         2. Return whether Port is absent.
     #>
@@ -16,7 +16,7 @@ function Test-SonarCubeTcpPortAvailable () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -32,7 +32,7 @@ function Resolve-SonarCubeInstallerPort () {
         Validates the SonarQube Web UI port loaded from config-sonarcube.json.
     .DESCRIPTION
         Returns the configured port when available and throws when it is already in use.
-    .REMARKS
+    .NOTES
         1. Check the configured port.
         2. Throw when busy.
         3. Return the configured port.
@@ -49,7 +49,7 @@ function Resolve-SonarCubeInstallerPort () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {

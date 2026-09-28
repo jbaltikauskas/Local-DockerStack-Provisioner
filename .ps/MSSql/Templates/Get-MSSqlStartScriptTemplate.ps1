@@ -4,7 +4,7 @@ function Get-MSSqlStartScriptTemplate () {
         Returns the generated Start-MSSql.ps1 script template.
     .DESCRIPTION
         The returned script starts the existing local compose containers and prints the connection string.
-    .REMARKS
+    .NOTES
         1. Return the verbatim script template.
     #>
     [CmdletBinding()]
