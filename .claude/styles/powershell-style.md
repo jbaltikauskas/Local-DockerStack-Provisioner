@@ -5,7 +5,7 @@ description: Authoritative structure and style for new PowerShell scripts (.ps1)
 
 # PowerShell Script Style
 
-Every new `.ps1` file in this workspace follows the same five-block layout. Keep the order. Do not skip blocks even when they feel small.
+Every new entry-point `.ps1` (the root `Install-*.ps1` orchestrators) follows the same five-block layout. Keep the order. Do not skip blocks even when they feel small. Dot-sourced helper modules are not entry scripts: they hold no `#Requires`/`Param`/`try` wrapper and instead follow the one-function-per-file rule below.
 
 ## File layout (top to bottom)
 
@@ -14,6 +14,22 @@ Every new `.ps1` file in this workspace follows the same five-block layout. Keep
 3. `[CmdletBinding()] Param ( ... )` block with one `[Parameter(...)]` attribute per parameter.
 4. Function definitions, each as an advanced function with its own `[CmdletBinding()] Param ( ... )`. After **`Param`**, use a plain **`{ ... }`** body, **`Begin` + `Process`**, or **`Process`** only — **`never`** **`End`**. When **`Begin`** trace is required, see Block 4.
 5. `try { ... } catch { ... }` wrapper that runs the orchestration. The catch prints the exception, prompts the user to close the window, and exits with code 1. After the wrapper, print a success line and prompt to close.
+
+## One function per file (helper modules)
+
+The five-block layout above is for entry scripts. Dot-sourced helper modules (everything under `.ps\Core\`, `.ps\Common\`, and each stack's `.ps\<Stack>\Core\`) follow a stricter organization rule.
+
+**Every helper `.ps1` outside a `Templates\` folder defines exactly one function and is named after it.** `Resolve-PostgreSqlInstallerPort.ps1` holds `Resolve-PostgreSqlInstallerPort` and nothing else. One function per file keeps helpers easy to find, review, and move between stacks, and lets an installer's `$moduleFiles` list read as a manifest of the functions it loads.
+
+The one exception: when a function is a **private helper called by exactly one other function in the same set**, the two may share a file. Keep them together in the caller's file and name the file after that caller (the entry function). Examples:
+
+- `.ps\Core\Get-RequiredConfigString.ps1` also holds `Get-RequiredConfigPort`, which calls `Get-RequiredConfigString`.
+- `.ps\SonarCube\Core\Repair-SonarCubePostgreSqlPassword.ps1` also holds the psql-quoting helpers and `Invoke-SonarCubePostgreSqlCommand` that only `Repair-*` uses.
+- `.ps\SonarCube\Core\Set-SonarCubeAdminPassword.ps1` also holds `Wait-SonarCubeWebApiReady` and `Test-SonarCubeAdminCredential`, its sole callers.
+
+A helper that **two or more** sibling functions call gets its own file instead (for example `Get-SonarCubeWebApiErrorMessage.ps1` and `Get-SonarCubeBasicAuthHeader.ps1`). Cross-file calls resolve fine because the installer dot-sources every module before invoking anything, so co-location is a readability choice, never a requirement.
+
+`Templates\` files are out of scope for this rule, though they already are one function per file by construction.
 
 ## Block 1: Comment-based help
 

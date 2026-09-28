@@ -24,25 +24,33 @@ Each installer has a matching required root config file:
 - `config-snowflake.json`
 - `config-cosmosdb.json`
 
-Edit the stack-specific helper modules when changing installer behavior. Shared,
-installer-agnostic helpers live under `.ps\Core\` and are dot-sourced by every
-installer:
+Edit the stack-specific helper modules when changing installer behavior.
 
-- `Core\Configuration.ps1` — `Get-RequiredConfigString`, `Get-RequiredConfigPort`,
-  `Get-RequiredConfigBool`.
-- `Core\Docker.ps1` — `Assert-DockerPrerequisites`, `Start-ComposeStack`.
-- `Core\Network.ps1` — `Test-TcpPortAvailable`, `Resolve-BindAddressFromHostName`.
+Outside `Templates\`, every helper `.ps1` holds exactly one function and is named
+after it (for example `Core\Resolve-PostgreSqlInstallerPort.ps1`). A private
+helper that only one sibling function calls may share that caller's file, and the
+file is named after the caller (for example `.ps\Core\Get-RequiredConfigString.ps1`
+also holds `Get-RequiredConfigPort`, and SonarCube's
+`Core\Repair-SonarCubePostgreSqlPassword.ps1` holds the psql helpers it alone
+uses). See the one-function-per-file rule in `.claude\styles\powershell-style.md`.
 
-Keep functions in `.ps\Core\` generic: no stack name prefixes and no literals
-tied to one installer (config file names and settings come in as parameters).
+Shared, installer-agnostic helpers live under `.ps\Core\`, one function per file,
+and are dot-sourced by every installer: `Get-RequiredConfigString` (with
+`Get-RequiredConfigPort`), `Get-RequiredConfigBool`, `Assert-DockerPrerequisites`,
+`Start-ComposeStack`, `Test-TcpPortAvailable`, and `Resolve-BindAddressFromHostName`.
+Keep these generic: no stack name prefixes and no literals tied to one installer
+(config file names and settings come in as parameters).
 
-The per-stack shape is the shared `Common\Write-Utf8NoBom.ps1` and `.ps\Core\`
-helpers above, plus stack `Core\Configuration.ps1` (the `Initialize-<Stack>...`
-loader and any stack-specific validation), `Core\Network.ps1` (the stack
-`Resolve-<Stack>InstallerPort` and port checks), `Core\FileSystem.ps1`, optional
-`Core\Security.ps1`, and one file per template writer under `Templates\`.
-SonarCube additionally keeps a stack `Core\Docker.ps1` (Docker vm.max_map_count
-and its phased database/application start) and `Core\DotNet.ps1`.
+Each stack's `Core\` folder then holds its own one-function-per-file helpers:
+`Initialize-<Stack>InstallerFromConfig` (the config loader, which for SonarCube
+also carries `Assert-SonarCubeAdminPasswordPolicy`), `Resolve-<Stack>InstallerPort`
+(plus `Assert-<Stack>DistinctPorts` for the multi-port stacks),
+`ConvertTo-<Stack>ContainerPrefix`, `Resolve-<Stack>InstallFolder`,
+`New-<Stack>FolderLayout`, an optional secrets initializer, and one file per
+template writer under `Templates\`. SonarCube additionally keeps its Docker
+helpers (`Set-SonarCubeDockerVirtualMemory`, `Start-SonarCubeDatabaseService`,
+`Start-SonarCubeApplicationServices`), `Install-SonarCubeDotNetScanner`, and the
+Web-API/secret helpers formerly grouped in `Security.ps1`.
 
 `ServerNamePrefix` is a required installer input. Never read it from config
 files. Installers always create `<ServerNamePrefix>-<StackName>-yyyyMMdd`
