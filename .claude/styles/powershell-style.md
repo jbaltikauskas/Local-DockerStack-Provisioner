@@ -29,6 +29,12 @@ The one exception: when a function is a **private helper called by exactly one o
 
 A helper that **two or more** sibling functions call gets its own file instead (for example `Get-SonarCubeWebApiErrorMessage.ps1` and `Get-SonarCubeBasicAuthHeader.ps1`). Cross-file calls resolve fine because the installer dot-sources every module before invoking anything, so co-location is a readability choice, never a requirement.
 
+**How to apply when splitting a multi-function file:** build the intra-file call graph first (which function calls which siblings), then decide file-by-file:
+
+- Zero sibling callers → its own file.
+- Called by exactly one sibling → bundle into that sibling's file, named after the caller.
+- Called by two or more siblings → its own file, regardless of how small it is.
+
 `Templates\` files are out of scope for this rule, though they already are one function per file by construction.
 
 ## Block 1: Comment-based help
