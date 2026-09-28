@@ -82,7 +82,7 @@ try {
         'Core\FileSystem.ps1'
         'Core\Network.ps1'
         'Core\Security.ps1'
-        'Core\Write-Utf8NoBom.ps1'
+        '..\Common\Write-Utf8NoBom.ps1'
         'Templates\New-SonarCubeComposeFile.ps1'
         'Templates\New-SonarCubeEnvFile.ps1'
         'Templates\Get-SonarCubeStartScriptTemplate.ps1'

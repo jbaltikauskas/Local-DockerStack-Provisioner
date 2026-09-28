@@ -25,7 +25,7 @@ Each installer has a matching required root config file:
 - `config-cosmosdb.json`
 
 Edit the stack-specific helper modules when changing installer behavior. The
-common shape is `Core\Write-Utf8NoBom.ps1`, `Core\Configuration.ps1`,
+common shape is the shared `Common\Write-Utf8NoBom.ps1` plus `Core\Configuration.ps1`,
 `Core\Docker.ps1`, `Core\Network.ps1`, `Core\FileSystem.ps1`, optional
 `Core\Security.ps1`, and one file per template writer under `Templates\`.
 

@@ -62,7 +62,7 @@ try {
     Write-Output "Loading module files:"
 
     $moduleFiles = @(
-        'Core\Write-Utf8NoBom.ps1'
+        '..\Common\Write-Utf8NoBom.ps1'
         'Core\Configuration.ps1'
         'Core\Docker.ps1'
         'Core\FileSystem.ps1'

@@ -5,7 +5,7 @@ function Write-Utf8NoBom () {
     .DESCRIPTION
         Writes exact content without adding a trailing newline. Bound parameters
         are not logged because Content may contain secrets.
-    .REMARKS
+    .NOTES
         1. Write Content to Path as UTF-8 without BOM or an added newline.
     #>
     [CmdletBinding()]
