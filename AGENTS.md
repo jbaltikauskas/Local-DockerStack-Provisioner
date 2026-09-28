@@ -37,7 +37,8 @@ uses). See the one-function-per-file rule in `.claude\styles\powershell-style.md
 Shared, installer-agnostic helpers live under `.ps\Core\`, one function per file,
 and are dot-sourced by every installer: `Get-RequiredConfigString` (with
 `Get-RequiredConfigPort`), `Get-RequiredConfigBool`, `Assert-DockerPrerequisites`,
-`Start-ComposeStack`, `Test-TcpPortAvailable`, and `Resolve-BindAddressFromHostName`.
+`Start-ComposeStack`, `Test-TcpPortAvailable`, `Resolve-BindAddressFromHostName`, and
+`Write-InternetShortcut` (writes a `<Name>.url` Internet Shortcut).
 Keep these generic: no stack name prefixes and no literals tied to one installer
 (config file names and settings come in as parameters).
 

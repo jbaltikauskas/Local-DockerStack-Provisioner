@@ -69,6 +69,7 @@ try {
         '..\Core\Start-ComposeStack.ps1'
         '..\Core\Test-TcpPortAvailable.ps1'
         '..\Core\Resolve-BindAddressFromHostName.ps1'
+        '..\Core\Write-InternetShortcut.ps1'
         'Core\Initialize-CosmosDbInstallerFromConfig.ps1'
         'Core\ConvertTo-CosmosDbContainerPrefix.ps1'
         'Core\Resolve-CosmosDbInstallFolder.ps1'
@@ -81,7 +82,6 @@ try {
         'Templates\Get-CosmosDbStopScriptTemplate.ps1'
         'Templates\Write-CosmosDbManagementScripts.ps1'
         'Templates\Write-CosmosDbReadme.ps1'
-        'Templates\Write-CosmosDbWebUiShortcut.ps1'
     )
 
     foreach ($relativePath in $moduleFiles) {
@@ -204,7 +204,7 @@ using var cosmosClient = new CosmosClient(accountEndpoint, accountKey, cosmosCli
         -ConnectionString $connectionString `
         -CSharpConnectionExample $cSharpConnectionExample `
         -ServiceName $serviceName
-    Write-CosmosDbWebUiShortcut -ServerRoot $serverRoot -ExplorerUrl $explorerUrl | Out-Null
+    Write-InternetShortcut -ServerRoot $serverRoot -Name 'CosmosDb' -Url $explorerUrl | Out-Null
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
     Start-ComposeStack -ComposePath $composePath

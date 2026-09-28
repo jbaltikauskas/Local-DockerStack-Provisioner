@@ -82,6 +82,7 @@ try {
         '..\Core\Start-ComposeStack.ps1'
         '..\Core\Test-TcpPortAvailable.ps1'
         '..\Core\Resolve-BindAddressFromHostName.ps1'
+        '..\Core\Write-InternetShortcut.ps1'
         'Core\Initialize-SonarCubeInstallerFromConfig.ps1'
         'Core\ConvertTo-SonarCubeContainerPrefix.ps1'
         'Core\Resolve-SonarCubeInstallFolder.ps1'
@@ -108,7 +109,6 @@ try {
         'Templates\Write-SonarCubeManagementScripts.ps1'
         'Templates\Write-SonarCubeScanScript.ps1'
         'Templates\Write-SonarCubeReadme.ps1'
-        'Templates\Write-SonarCubeWebUiShortcut.ps1'
     )
 
     foreach ($relativePath in $moduleFiles) {
@@ -194,7 +194,7 @@ try {
     Write-Output "Creating management scripts:" -ForegroundColor Green
     Write-SonarCubeManagementScripts -ServerRoot $serverRoot -WebHost $WebHost
     Write-SonarCubeReadme -ServerRoot $serverRoot -WebHost $WebHost -Port $Port -SonarQubeServiceName $sonarQubeServiceName
-    $shortcutPath = Write-SonarCubeWebUiShortcut -ServerRoot $serverRoot -WebHost $WebHost -Port $Port
+    $shortcutPath = Write-InternetShortcut -ServerRoot $serverRoot -Name 'SonarCube' -Url "http://${WebHost}:${Port}"
 
     Set-SonarCubeDockerVirtualMemory
     Start-SonarCubeDatabaseService -ComposePath $composePath -DatabaseServiceName $databaseServiceName

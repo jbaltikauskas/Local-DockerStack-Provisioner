@@ -69,6 +69,7 @@ try {
         '..\Core\Start-ComposeStack.ps1'
         '..\Core\Test-TcpPortAvailable.ps1'
         '..\Core\Resolve-BindAddressFromHostName.ps1'
+        '..\Core\Write-InternetShortcut.ps1'
         'Core\Initialize-AspireDashboardInstallerFromConfig.ps1'
         'Core\ConvertTo-AspireDashboardContainerPrefix.ps1'
         'Core\Resolve-AspireDashboardInstallFolder.ps1'
@@ -81,7 +82,6 @@ try {
         'Templates\Get-AspireDashboardStopScriptTemplate.ps1'
         'Templates\Write-AspireDashboardManagementScripts.ps1'
         'Templates\Write-AspireDashboardReadme.ps1'
-        'Templates\Write-AspireDashboardWebUiShortcut.ps1'
     )
 
     foreach ($relativePath in $moduleFiles) {
@@ -164,7 +164,7 @@ try {
         -OtlpHttpEndpoint $otlpHttpEndpoint `
         -ServiceName $serviceName `
         -AllowAnonymous $AllowAnonymous
-    Write-AspireDashboardWebUiShortcut -ServerRoot $serverRoot -DashboardUrl $dashboardUrl | Out-Null
+    Write-InternetShortcut -ServerRoot $serverRoot -Name 'AspireDashboard' -Url $dashboardUrl | Out-Null
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
     Start-ComposeStack -ComposePath $composePath
