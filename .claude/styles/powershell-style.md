@@ -17,7 +17,7 @@ Every new entry-point `.ps1` (the root `Install-*.ps1` orchestrators) follows th
 
 ## One function per file (helper modules)
 
-The five-block layout above is for entry scripts. Dot-sourced helper modules (everything under `.ps\Core\`, `.ps\Common\`, and each stack's `.ps\<Stack>\Core\`) follow a stricter organization rule.
+The five-block layout above is for entry scripts. Dot-sourced helper modules (everything under `.ps\Core\` and each stack's `.ps\<Stack>\Core\`) follow a stricter organization rule.
 
 **Every helper `.ps1` outside a `Templates\` folder defines exactly one function and is named after it.** `Resolve-PostgreSqlInstallerPort.ps1` holds `Resolve-PostgreSqlInstallerPort` and nothing else. One function per file keeps helpers easy to find, review, and move between stacks, and lets an installer's `$moduleFiles` list read as a manifest of the functions it loads.
 

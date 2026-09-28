@@ -100,7 +100,7 @@ try {
         'Core\New-SonarCubeGlobalAnalysisToken.ps1'
         'Core\Write-SonarCubeAnalysisSecrets.ps1'
         'Core\Set-SonarCubeAnalysisExclusions.ps1'
-        '..\Common\Write-Utf8NoBom.ps1'
+        '..\Core\Write-Utf8NoBom.ps1'
         'Templates\New-SonarCubeComposeFile.ps1'
         'Templates\New-SonarCubeEnvFile.ps1'
         'Templates\Get-SonarCubeStartScriptTemplate.ps1'
