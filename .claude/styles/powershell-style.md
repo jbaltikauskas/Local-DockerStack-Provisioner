@@ -108,9 +108,9 @@ function New-Thing () {
     .DESCRIPTION
         What the function does in plain language: purpose, return value or
         output contract, important branches, errors thrown, and non-obvious
-        side effects (disk, network, environment). Keep this separate from `.REMARKS`.
+        side effects (disk, network, environment). Keep this separate from `.NOTE`.
 
-    .REMARKS
+    .NOTE
         1. Validate that Path exists; throw if not.
         2. Invoke the native command with Name and Path.
         3. If exit code is non-zero, throw with the code in the message.
@@ -127,7 +127,8 @@ function New-Thing () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -146,7 +147,7 @@ function New-Thing () {
 }
 ```
 
-### Function comment-based help: `.SYNOPSIS`, `.DESCRIPTION`, and `.REMARKS`
+### Function comment-based help: `.SYNOPSIS`, `.DESCRIPTION`, and `.NOTE`
 
 Put the `<# ... #>` block **inside** the function, before `[CmdletBinding()]` and `Param`.
 
@@ -154,11 +155,11 @@ Put the `<# ... #>` block **inside** the function, before `[CmdletBinding()]` an
 
 - **`.SYNOPSIS`** — Single sentence on what it does.
 
-- **`.DESCRIPTION`** — Summarize purpose, return value or observable outcome, what each important branch does, what is thrown on failure, and side effects callers care about. For tiny helpers, one short paragraph is enough. Do not duplicate the step list; that belongs in `.REMARKS`.
+- **`.DESCRIPTION`** — Summarize purpose, return value or observable outcome, what each important branch does, what is thrown on failure, and side effects callers care about. For tiny helpers, one short paragraph is enough. Do not duplicate the step list; that belongs in `.NOTE`.
 
-- **`.REMARKS`** — A numbered list describing what the function does **in order** from a control-flow perspective (validate → branch → call → return). Omit trace-only plumbing (for example the standard **`Begin`** block that runs **`$PSBoundParameters | Write-Debug`**), unless emitting that trace **is** the function's sole job. For helpers whose output **is** host formatting (**`Write-Section`**), FLOW lists the cyan banner **`Write-Host`** sequence.
+- **`.NOTE`** — A numbered list describing what the function does **in order** from a control-flow perspective (validate → branch → call → return). Omit trace-only plumbing (for example the standard **`Begin`** block that runs **`$PSBoundParameters | Write-Debug`**), unless emitting that trace **is** the function's sole job. For helpers whose output **is** host formatting (**`Write-Section`**), FLOW lists the cyan banner **`Write-Host`** sequence.
 
-Helpers that touch secrets stay minimal per workspace secret rules: `.DESCRIPTION` and `.REMARKS` can be one line each; do not echo parameters in help text.
+Helpers that touch secrets stay minimal per workspace secret rules: `.DESCRIPTION` and `.NOTE` can be one line each; do not echo parameters in help text.
 
 ### `Begin`, `Process`, and no `End`
 
@@ -264,7 +265,7 @@ function Write-Section () {
     .DESCRIPTION
         Host-only formatting; emits four Write-Host lines (spacing, borders, title).
 
-    .REMARKS
+    .NOTE
         1. Write blank line, gray horizontal rules, and cyan titled message.
     #>
     [CmdletBinding()]
@@ -275,7 +276,8 @@ function Write-Section () {
     )
 
     Begin {
-        $PSBoundParameters | Out-String | Write-Host
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+        Write-Verbose ($PSBoundParameters | Out-String)
     }
 
     Process {
@@ -310,7 +312,7 @@ function Convert-SecureStringToPlain () {
     .DESCRIPTION
         Marshal-based decode; caller must zero sensitive plaintext promptly. Never log the result.
 
-    .REMARKS
+    .NOTE
         1. Return $null when Secret is missing.
         2. Decode via BSTR, return plaintext, zero the BSTR in finally.
     #>
@@ -354,7 +356,7 @@ function Read-PortInteractive () {
     .DESCRIPTION
         Loops on Read-Host; empty input returns Default; validates 1–65535.
 
-    .REMARKS
+    .NOTE
         1. Loop: read raw input.
         2. If whitespace, return Default.
         3. If numeric and in range, return value; else warn and retry.
@@ -432,8 +434,8 @@ Match the reference exactly so logs look the same across scripts:
 1. Help block has `.SYNOPSIS`, `.DESCRIPTION` (with numbered flow), one `.PARAMETER` per parameter, `.INPUTS`, `.OUTPUTS`, `.NOTES`, two or more `.EXAMPLE`.
 2. `#Requires -Version`, `$ErrorActionPreference = 'Stop'`, `$PSNativeCommandUseErrorActionPreference = $true` are set.
 3. Every parameter has `[Parameter(...)]` with `HelpMessage` and an appropriate `Validate*` attribute.
-4. Every function is an advanced function (**`End`** forbidden). Functions with ≥1 parameter (non-secret **`Param`**) use **`Begin { $PSBoundParameters | Out-String | Write-Host }`** + **`Process`**, as in **`Write-LightRagReadme.ps1`**; secret-only helpers **`Process`** only. After **`Process {`**, one empty line before the first inner statement.
-5. Every function has comment-based help with **`.SYNOPSIS`**, **`.DESCRIPTION`**, and **`.REMARKS`** (see **Function comment-based help: `.SYNOPSIS`, `.DESCRIPTION`, and `.REMARKS`**). In `.REMARKS`, skip trace-only steps such as printing and banner lines unless that output is the function's job.
+4. Every function is an advanced function (**`End`** forbidden). Functions with ≥1 parameter (non-secret **`Param`**) use **`Begin { $PSBoundParameters | Out-String | Write-Host }`** + **`Process`**; secret-only helpers **`Process`** only. After **`Process {`**, one empty line before the first inner statement.
+5. Every function has comment-based help with **`.SYNOPSIS`**, **`.DESCRIPTION`**, and **`.NOTE`** (see **Function comment-based help: `.SYNOPSIS`, `.DESCRIPTION`, and `.NOTE`**). In `.NOTE`, skip trace-only steps such as printing and banner lines unless that output is the function's job.
 6. The orchestration lives in one `try { ... }` block. After every **`try {`**, one empty line before the first inner statement (including nested **`try`**).
 7. The catch prints exception type and message, then `Read-Host`, then `EXIT 1`.
 8. After the wrapper, you print "Script executed successfully." in Green and a final `Read-Host`.
