@@ -89,6 +89,7 @@ function ConvertTo-SonarCubePostgreSqlIdentifier () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
@@ -282,6 +283,11 @@ function Get-SonarCubeWebApiErrorMessage () {
         [object]$ErrorRecord
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+        Write-Verbose ($PSBoundParameters | Out-String)
+    }
+
     Process {
 
         $statusCode = $ErrorRecord.Exception.Response.StatusCode
@@ -320,6 +326,7 @@ function Wait-SonarCubeWebApiReady () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 

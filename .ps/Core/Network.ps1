@@ -16,6 +16,7 @@ function Test-TcpPortAvailable () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
@@ -49,6 +50,7 @@ function Resolve-BindAddressFromHostName () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 

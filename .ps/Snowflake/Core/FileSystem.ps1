@@ -18,6 +18,7 @@ function ConvertTo-SnowflakeContainerPrefix () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
@@ -61,6 +62,7 @@ function Resolve-SnowflakeInstallFolder () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
@@ -112,6 +114,7 @@ function New-SnowflakeFolderLayout () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 

@@ -18,6 +18,7 @@ function ConvertTo-SonarCubeContainerPrefix () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
@@ -61,6 +62,7 @@ function Resolve-SonarCubeInstallFolder () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
@@ -112,6 +114,7 @@ function New-SonarCubeFolderLayout () {
     )
 
     Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
         Write-Verbose ($PSBoundParameters | Out-String)
     }
 
