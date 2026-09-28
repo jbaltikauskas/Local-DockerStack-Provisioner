@@ -194,7 +194,7 @@ try {
     Write-Output "Creating management scripts:" -ForegroundColor Green
     Write-SonarCubeManagementScripts -ServerRoot $serverRoot -WebHost $WebHost
     Write-SonarCubeReadme -ServerRoot $serverRoot -WebHost $WebHost -Port $Port -SonarQubeServiceName $sonarQubeServiceName
-    $shortcutPath = Write-InternetShortcut -ServerRoot $serverRoot -Name 'SonarCube' -Url "http://${WebHost}:${Port}"
+    $shortcutPath = Write-InternetShortcut -ServerRoot $serverRoot -Name 'SonarCube' -WebHost $WebHost -Port $Port
 
     Set-SonarCubeDockerVirtualMemory
     Start-SonarCubeDatabaseService -ComposePath $composePath -DatabaseServiceName $databaseServiceName

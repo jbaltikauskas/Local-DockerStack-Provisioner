@@ -164,7 +164,7 @@ try {
         -OtlpHttpEndpoint $otlpHttpEndpoint `
         -ServiceName $serviceName `
         -AllowAnonymous $AllowAnonymous
-    Write-InternetShortcut -ServerRoot $serverRoot -Name 'AspireDashboard' -Url $dashboardUrl | Out-Null
+    Write-InternetShortcut -ServerRoot $serverRoot -Name 'AspireDashboard' -WebHost $HostName -Port $DashboardUiPort | Out-Null
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
     Start-ComposeStack -ComposePath $composePath

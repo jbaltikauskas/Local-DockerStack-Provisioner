@@ -204,7 +204,7 @@ using var cosmosClient = new CosmosClient(accountEndpoint, accountKey, cosmosCli
         -ConnectionString $connectionString `
         -CSharpConnectionExample $cSharpConnectionExample `
         -ServiceName $serviceName
-    Write-InternetShortcut -ServerRoot $serverRoot -Name 'CosmosDb' -Url $explorerUrl | Out-Null
+    Write-InternetShortcut -ServerRoot $serverRoot -Name 'CosmosDb' -WebHost $HostName -Port $ExplorerPort -UseHttps:($Protocol -eq 'https') | Out-Null
     Write-Host "Done creating management scripts." -ForegroundColor Green
 
     Start-ComposeStack -ComposePath $composePath
