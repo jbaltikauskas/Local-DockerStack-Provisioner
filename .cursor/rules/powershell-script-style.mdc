@@ -37,7 +37,7 @@ The `$PSNativeCommandUseErrorActionPreference` line makes native commands (docke
 
 Rules for the param block:
 
-- One `[Parameter(...)]` attribute per parameter, with `Mandatory`, `Position` when meaningful, and `HelpMessage`.
+- Every parameter — no exceptions, including `[switch]` flags — carries its own `[Parameter(...)]` attribute, and that attribute **always** includes a `HelpMessage`. `HelpMessage` is required, never optional: it is the double-quoted hint PowerShell shows when a mandatory value is missing at an interactive prompt. Include `Mandatory` and, when meaningful, `Position`. Never write a bare `[Parameter(Mandatory = $true)]` without a `HelpMessage`.
 - `[ValidateNotNullOrEmpty()]` on every required string. Use `[ValidateSet(...)]`, `[ValidateRange(...)]`, or `[ValidatePattern(...)]` when applicable.
 - Camel case parameter names match the reference script. Pick one casing and stick with it across the repo so diffs stay clean.
 - Default values go on the parameter line, not in the body.
@@ -138,7 +138,7 @@ function Convert-SecureStringToPlain () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $false, Position = 0)]
+        [Parameter(Mandatory = $false, Position = 0, HelpMessage = "SecureString to decode; never logged.")]
         [SecureString]$Secret
     )
 

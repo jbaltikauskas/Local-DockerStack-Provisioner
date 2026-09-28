@@ -15,35 +15,35 @@ function New-SnowflakeEnvFile () {
     )]
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env file to write.")]
         [ValidateNotNullOrEmpty()]
         [string]$EnvPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake account identifier.")]
         [ValidateNotNullOrEmpty()]
         [string]$Account,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database user name.")]
         [ValidateNotNullOrEmpty()]
         [string]$User,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Credential value to store.")]
         [ValidateNotNullOrEmpty()]
         [string]$CredentialValue,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake warehouse name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Warehouse,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Database,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake schema name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Schema,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake role name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Role
     )

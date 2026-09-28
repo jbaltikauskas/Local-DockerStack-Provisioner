@@ -12,35 +12,35 @@ function New-CosmosDbComposeFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Prefix applied to container and volume names.")]
         [ValidateNotNullOrEmpty()]
         [string]$ContainerPrefix,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the container.")]
         [ValidatePattern('^cosmosdb-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$ServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host address the container port binds to.")]
         [ValidateSet('127.0.0.1', '0.0.0.0')]
         [string]$BindAddress,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host port for the health probe endpoint.")]
         [ValidateRange(1, 65535)]
         [int]$HealthPort,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host port for the Data Explorer web UI.")]
         [ValidateRange(1, 65535)]
         [int]$ExplorerPort,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Cosmos DB emulator container image reference.")]
         [ValidateNotNullOrEmpty()]
         [string]$CosmosDbImage
     )

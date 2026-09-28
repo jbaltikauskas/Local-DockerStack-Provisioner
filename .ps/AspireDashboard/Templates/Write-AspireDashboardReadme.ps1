@@ -9,27 +9,27 @@ function Write-AspireDashboardReadme () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder of the installed stack.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerRoot,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL of the dashboard web UI.")]
         [ValidateNotNullOrEmpty()]
         [string]$DashboardUrl,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "OTLP gRPC endpoint URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$OtlpGrpcEndpoint,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "OTLP HTTP endpoint URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$OtlpHttpEndpoint,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the container.")]
         [ValidatePattern('^aspire-dashboard-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$ServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Whether the dashboard allows anonymous access.")]
         [bool]$AllowAnonymous
     )
 

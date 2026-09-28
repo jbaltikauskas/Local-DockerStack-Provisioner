@@ -11,7 +11,7 @@ function Get-SonarCubeWebApiErrorMessage () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Error record to inspect for a message.")]
         [object]$ErrorRecord
     )
 

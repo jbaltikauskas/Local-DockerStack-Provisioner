@@ -11,11 +11,11 @@ function Resolve-SonarCubeInstallerPort () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Port value read from configuration, before availability checks.")]
         [ValidateRange(1, 65535)]
         [int]$ConfiguredPort,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host address the container port binds to.")]
         [ValidateNotNullOrEmpty()]
         [string]$BindAddress
     )

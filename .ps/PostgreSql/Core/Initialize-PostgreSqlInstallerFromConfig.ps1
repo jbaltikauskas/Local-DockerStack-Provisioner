@@ -12,7 +12,7 @@ function Initialize-PostgreSqlInstallerFromConfig () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Absolute path to the installer script's own folder.")]
         [ValidateNotNullOrEmpty()]
         [string]$ScriptRoot
     )

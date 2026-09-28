@@ -10,11 +10,11 @@ function Get-SonarCubeBasicAuthHeader () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "User name for HTTP Basic authentication.")]
         [ValidateNotNullOrEmpty()]
         [string]$Login,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Password used for authentication.")]
         [ValidateNotNullOrEmpty()]
         [string]$Password
     )

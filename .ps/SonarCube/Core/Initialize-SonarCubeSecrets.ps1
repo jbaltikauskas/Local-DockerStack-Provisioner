@@ -14,32 +14,32 @@ function Initialize-SonarCubeSecrets () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env.secrets file holding generated credentials.")]
         [ValidateNotNullOrEmpty()]
         [string]$SecretsPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the database container.")]
         [ValidateNotNullOrEmpty()]
         [ValidatePattern('^postgres-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$DatabaseServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database user password.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseSecret,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator password.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminPassword
     )

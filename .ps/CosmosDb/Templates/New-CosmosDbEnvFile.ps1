@@ -16,23 +16,23 @@ function New-CosmosDbEnvFile () {
     )]
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env file to write.")]
         [ValidateNotNullOrEmpty()]
         [string]$EnvPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the key file.")]
         [ValidateNotNullOrEmpty()]
         [string]$KeyFilePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host name used to reach the service.")]
         [ValidateNotNullOrEmpty()]
         [string]$HostName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL scheme to use (http or https).")]
         [ValidateSet('http', 'https', 'https-insecure')]
         [string]$Protocol,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Cosmos DB account key used in the connection string.")]
         [ValidateNotNullOrEmpty()]
         [string]$AccountKey
     )

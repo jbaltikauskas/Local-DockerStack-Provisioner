@@ -11,11 +11,11 @@ function Resolve-BindAddressFromHostName () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host name used to reach the service.")]
         [ValidateNotNullOrEmpty()]
         [string]$HostName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Name of the config JSON file to read settings from.")]
         [ValidateNotNullOrEmpty()]
         [string]$ConfigFileName
     )

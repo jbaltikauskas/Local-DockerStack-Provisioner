@@ -11,7 +11,7 @@ function ConvertTo-SonarCubePostgreSqlIdentifier () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "The input value to process.")]
         [ValidateNotNullOrEmpty()]
         [string]$Value
     )
@@ -40,7 +40,7 @@ function ConvertTo-SonarCubePostgreSqlLiteral () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "The input value to process.")]
         [AllowEmptyString()]
         [string]$Value
     )
@@ -65,23 +65,23 @@ function Invoke-SonarCubePostgreSqlCommand () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the database container.")]
         [ValidatePattern('^postgres-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$DatabaseServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "SQL statement to execute.")]
         [ValidateNotNullOrEmpty()]
         [string]$Sql
     )
@@ -119,31 +119,31 @@ function Repair-SonarCubePostgreSqlPassword () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the database container.")]
         [ValidatePattern('^postgres-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$DatabaseServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database user password.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseSecret,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false, HelpMessage = "Maximum seconds to wait before timing out.")]
         [ValidateRange(1, 600)]
         [int]$TimeoutSeconds = 120,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false, HelpMessage = "Seconds to wait between retries.")]
         [ValidateRange(1, 60)]
         [int]$RetryIntervalSeconds = 5
     )

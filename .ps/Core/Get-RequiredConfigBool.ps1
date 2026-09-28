@@ -11,14 +11,14 @@ function Get-RequiredConfigBool () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Parsed configuration object read from the config JSON.")]
         [object]$Config,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Name of the configuration setting to read.")]
         [ValidateNotNullOrEmpty()]
         [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Name of the config JSON file to read settings from.")]
         [ValidateNotNullOrEmpty()]
         [string]$ConfigFileName
     )

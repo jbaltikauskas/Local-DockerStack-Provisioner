@@ -10,11 +10,11 @@ function Write-Utf8NoBom () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the file to write.")]
         [ValidateNotNullOrEmpty()]
         [string]$Path,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Exact text content to write to the file.")]
         [AllowEmptyString()]
         [string]$Content
     )

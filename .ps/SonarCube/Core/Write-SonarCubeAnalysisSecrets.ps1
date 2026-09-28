@@ -12,11 +12,11 @@ function Write-SonarCubeAnalysisSecrets () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env.secrets file holding generated credentials.")]
         [ValidateNotNullOrEmpty()]
         [string]$SecretsPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "SonarQube analysis token.")]
         [ValidateNotNullOrEmpty()]
         [string]$AnalysisToken
     )

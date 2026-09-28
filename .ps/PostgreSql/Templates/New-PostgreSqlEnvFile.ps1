@@ -10,19 +10,19 @@ function New-PostgreSqlEnvFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env file to write.")]
         [ValidateNotNullOrEmpty()]
         [string]$EnvPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database user name.")]
         [ValidateNotNullOrEmpty()]
         [string]$User,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Password used for authentication.")]
         [ValidateNotNullOrEmpty()]
         [string]$Password,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Database
     )

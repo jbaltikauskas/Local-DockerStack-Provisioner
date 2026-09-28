@@ -11,7 +11,7 @@ function Start-SonarCubeApplicationServices () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath
     )

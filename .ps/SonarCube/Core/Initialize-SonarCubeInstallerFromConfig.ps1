@@ -11,11 +11,11 @@ function Assert-SonarCubeAdminPasswordPolicy () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Password used for authentication.")]
         [ValidateNotNullOrEmpty()]
         [string]$Password,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Name of the config JSON file to read settings from.")]
         [ValidateNotNullOrEmpty()]
         [string]$ConfigFileName
     )
@@ -48,7 +48,7 @@ function Initialize-SonarCubeInstallerFromConfig () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Absolute path to the installer script's own folder.")]
         [ValidateNotNullOrEmpty()]
         [string]$ScriptRoot
     )

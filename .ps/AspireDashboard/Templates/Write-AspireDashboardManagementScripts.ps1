@@ -13,19 +13,19 @@ function Write-AspireDashboardManagementScripts () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder of the installed stack.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerRoot,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL of the dashboard web UI.")]
         [ValidateNotNullOrEmpty()]
         [string]$DashboardUrl,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "OTLP gRPC endpoint URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$OtlpGrpcEndpoint,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "OTLP HTTP endpoint URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$OtlpHttpEndpoint
     )

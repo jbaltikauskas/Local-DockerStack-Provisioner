@@ -13,15 +13,15 @@ function New-SnowflakeComposeFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake-compatible container image reference.")]
         [ValidateNotNullOrEmpty()]
         [string]$SnowflakeImage
     )

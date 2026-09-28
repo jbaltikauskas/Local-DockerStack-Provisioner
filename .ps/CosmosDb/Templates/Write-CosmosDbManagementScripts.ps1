@@ -13,19 +13,19 @@ function Write-CosmosDbManagementScripts () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder of the installed stack.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerRoot,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Service gateway endpoint URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$Endpoint,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL of the Data Explorer web UI.")]
         [ValidateNotNullOrEmpty()]
         [string]$ExplorerUrl,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL of the health probe endpoint.")]
         [ValidateNotNullOrEmpty()]
         [string]$HealthUrl
     )

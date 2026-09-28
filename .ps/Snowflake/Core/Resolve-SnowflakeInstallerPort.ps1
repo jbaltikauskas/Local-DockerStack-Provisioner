@@ -11,7 +11,7 @@ function Resolve-SnowflakeInstallerPort () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Port value read from configuration, before availability checks.")]
         [ValidateRange(1, 65535)]
         [int]$ConfiguredPort
     )

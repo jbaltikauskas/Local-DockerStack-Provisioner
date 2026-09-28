@@ -11,39 +11,39 @@ function New-SonarCubeComposeFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Prefix applied to container and volume names.")]
         [ValidateNotNullOrEmpty()]
         [string]$ContainerPrefix,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the SonarQube container.")]
         [ValidatePattern('^sonarqube-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$SonarQubeServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the database container.")]
         [ValidatePattern('^postgres-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$DatabaseServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Docker network name for the stack.")]
         [ValidatePattern('^sonarnet-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$NetworkName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host address the container port binds to.")]
         [ValidateSet('127.0.0.1', '0.0.0.0')]
         [string]$BindAddress,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "SonarQube container image reference.")]
         [ValidateNotNullOrEmpty()]
         [string]$SonarQubeImage,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "PostgreSQL container image reference.")]
         [ValidateNotNullOrEmpty()]
         [string]$PostgresImage
     )

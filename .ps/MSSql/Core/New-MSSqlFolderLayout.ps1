@@ -12,7 +12,7 @@ function New-MSSqlFolderLayout () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder of the installed stack.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerRoot
     )

@@ -11,51 +11,51 @@ function Write-SnowflakeReadme () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder of the installed stack.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerRoot,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host name used to reach the service.")]
         [ValidateNotNullOrEmpty()]
         [string]$HostName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "C# connection string for the README.")]
         [ValidateNotNullOrEmpty()]
         [string]$CSharpConnectionString,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake account identifier.")]
         [ValidateNotNullOrEmpty()]
         [string]$Account,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database user name.")]
         [ValidateNotNullOrEmpty()]
         [string]$User,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake warehouse name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Warehouse,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Database,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake schema name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Schema,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake role name.")]
         [ValidateNotNullOrEmpty()]
         [string]$Role,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Snowflake-compatible container image reference.")]
         [ValidateNotNullOrEmpty()]
         [string]$SnowflakeImage,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the container.")]
         [ValidatePattern('^snowflake-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$ServiceName
     )

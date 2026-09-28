@@ -10,7 +10,7 @@ function Assert-CosmosDbDistinctPorts () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Set of ports to verify are distinct.")]
         [ValidateNotNullOrEmpty()]
         [int[]]$Ports
     )

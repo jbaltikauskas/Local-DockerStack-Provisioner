@@ -110,11 +110,11 @@ Param (
 
 Rules for the param block:
 
-- One `[Parameter(...)]` attribute per parameter, with `Mandatory`, `Position` when meaningful, and `HelpMessage`.
+- Every parameter — no exceptions, including `[switch]` flags — carries its own `[Parameter(...)]` attribute, and that attribute **always** includes a `HelpMessage`. `HelpMessage` is required, never optional: it is the double-quoted hint PowerShell shows when a mandatory value is missing at an interactive prompt. Include `Mandatory` and, when meaningful, `Position`. Never write a bare `[Parameter(Mandatory = $true)]` without a `HelpMessage`.
 - `[ValidateNotNullOrEmpty()]` on every required string. Use `[ValidateSet(...)]`, `[ValidateRange(...)]`, or `[ValidatePattern(...)]` when applicable.
 - Camel case parameter names match the reference script. Pick one casing and stick with it across the repo so diffs stay clean.
 - Default values go on the parameter line, not in the body.
-- `[switch]` for boolean opt-in flags. `[bool]$Foo = $true` when you need a default-true that the caller can flip with `-Foo:$false`.
+- `[switch]` for boolean opt-in flags. `[bool]$Foo = $true` when you need a default-true that the caller can flip with `-Foo:$false`. Both still declare their own `[Parameter(...)]` with a `HelpMessage`, exactly like every other parameter.
 - `[SecureString]` for any secret a user enters. Decode with a small helper, zero the plaintext after use.
 
 ## Block 4: Functions
@@ -292,7 +292,7 @@ function Write-Section () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true, Position = 0)]
+        [Parameter(Mandatory = $true, Position = 0, HelpMessage = "Section title to print.")]
         [ValidateNotNullOrEmpty()]
         [string]$Message
     )
@@ -340,7 +340,7 @@ function Convert-SecureStringToPlain () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $false, Position = 0)]
+        [Parameter(Mandatory = $false, Position = 0, HelpMessage = "SecureString to decode; never logged.")]
         [SecureString]$Secret
     )
 
@@ -385,7 +385,7 @@ function Read-PortInteractive () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false, HelpMessage = "Default port used when the user presses Enter.")]
         [int]$Default = 9621
     )
 

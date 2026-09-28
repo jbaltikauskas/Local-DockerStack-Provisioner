@@ -11,11 +11,11 @@ function Initialize-MSSqlSecrets () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env.secrets file holding generated credentials.")]
         [ValidateNotNullOrEmpty()]
         [string]$SecretsPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "SQL Server sa account password.")]
         [ValidateNotNullOrEmpty()]
         [string]$SaPassword
     )

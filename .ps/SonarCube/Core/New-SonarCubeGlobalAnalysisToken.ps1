@@ -14,23 +14,23 @@ function New-SonarCubeGlobalAnalysisToken () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host name used in the service URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$WebHost,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator password.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminPassword,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Name of the analysis token to create.")]
         [ValidateNotNullOrEmpty()]
         [string]$TokenName
     )

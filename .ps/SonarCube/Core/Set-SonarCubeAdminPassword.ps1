@@ -12,14 +12,14 @@ function Wait-SonarCubeWebApiReady () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL of the service web UI.")]
         [ValidateNotNullOrEmpty()]
         [string]$WebUrl,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "UTC time by which the operation must complete.")]
         [datetime]$DeadlineUtc,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Seconds to wait between retries.")]
         [ValidateRange(1, 300)]
         [int]$RetryIntervalSeconds
     )
@@ -70,15 +70,15 @@ function Test-SonarCubeAdminCredential () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "URL of the service web UI.")]
         [ValidateNotNullOrEmpty()]
         [string]$WebUrl,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator password.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminPassword
     )
@@ -118,27 +118,27 @@ function Set-SonarCubeAdminPassword () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host name used in the service URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$WebHost,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator login name.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminLogin,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Administrator password.")]
         [ValidateNotNullOrEmpty()]
         [string]$AdminPassword,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false, HelpMessage = "Maximum seconds to wait before timing out.")]
         [ValidateRange(1, 3600)]
         [int]$TimeoutSeconds = 180,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false, HelpMessage = "Seconds to wait between retries.")]
         [ValidateRange(1, 300)]
         [int]$RetryIntervalSeconds = 10
     )

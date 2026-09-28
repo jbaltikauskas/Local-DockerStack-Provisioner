@@ -10,11 +10,11 @@ function Write-SonarCubeManagementScripts () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder of the installed stack.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerRoot,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Host name used in the service URL.")]
         [ValidateNotNullOrEmpty()]
         [string]$WebHost
     )

@@ -11,11 +11,11 @@ function Resolve-AspireDashboardInstallerPort () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Port value read from configuration, before availability checks.")]
         [ValidateRange(1, 65535)]
         [int]$ConfiguredPort,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Name of the configuration setting, used in error messages.")]
         [ValidateNotNullOrEmpty()]
         [string]$SettingName
     )

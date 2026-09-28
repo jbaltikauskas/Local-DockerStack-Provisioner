@@ -12,23 +12,23 @@ function New-MSSqlComposeFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Prefix applied to container and volume names.")]
         [ValidateNotNullOrEmpty()]
         [string]$ContainerPrefix,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the container.")]
         [ValidatePattern('^mssql-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$ServiceName,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "TCP port the service listens on (1-65535).")]
         [ValidateRange(1, 65535)]
         [int]$Port,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "SQL Server container image reference.")]
         [ValidateNotNullOrEmpty()]
         [string]$MSSqlImage
     )

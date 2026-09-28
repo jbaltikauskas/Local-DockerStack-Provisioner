@@ -15,11 +15,11 @@ function Resolve-MSSqlInstallFolder () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Root folder under which the dated install folder is created.")]
         [ValidateNotNullOrEmpty()]
         [string]$InstallRootFolder,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Install-folder prefix; the installer appends the stack name and date.")]
         [ValidateNotNullOrEmpty()]
         [string]$ServerNamePrefix
     )

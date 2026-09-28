@@ -9,11 +9,11 @@ function New-SonarCubeEnvFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env file to write.")]
         [ValidateNotNullOrEmpty()]
         [string]$EnvPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Database name.")]
         [ValidateNotNullOrEmpty()]
         [string]$DatabaseName
     )

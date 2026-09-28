@@ -10,11 +10,11 @@ function New-MSSqlEnvFile () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the .env file to write.")]
         [ValidateNotNullOrEmpty()]
         [string]$EnvPath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "SQL Server product ID (edition) value.")]
         [ValidateSet('Developer', 'Express', 'Standard', 'Enterprise', 'EnterpriseCore')]
         [string]$MSSqlPid
     )

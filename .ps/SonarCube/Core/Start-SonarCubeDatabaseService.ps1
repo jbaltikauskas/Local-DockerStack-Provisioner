@@ -12,11 +12,11 @@ function Start-SonarCubeDatabaseService () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Path to the stack's docker-compose.yml file.")]
         [ValidateNotNullOrEmpty()]
         [string]$ComposePath,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "Compose service name of the database container.")]
         [ValidatePattern('^postgres-[A-Za-z0-9][A-Za-z0-9_.-]*$')]
         [string]$DatabaseServiceName
     )

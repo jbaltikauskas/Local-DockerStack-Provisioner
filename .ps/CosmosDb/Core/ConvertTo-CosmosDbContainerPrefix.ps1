@@ -12,7 +12,7 @@ function ConvertTo-CosmosDbContainerPrefix () {
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true, HelpMessage = "The input value to process.")]
         [ValidateNotNullOrEmpty()]
         [string]$Value
     )
