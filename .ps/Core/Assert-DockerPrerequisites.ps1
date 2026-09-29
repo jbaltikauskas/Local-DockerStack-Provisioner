@@ -9,8 +9,10 @@ function Assert-DockerPrerequisites () {
         2. Query Docker Engine.
         3. Query Docker Compose.
     #>
-    [CmdletBinding()]
-    Param ()
+
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
 
     Process {
 

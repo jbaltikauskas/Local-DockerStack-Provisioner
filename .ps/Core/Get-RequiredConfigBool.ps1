@@ -23,6 +23,10 @@ function Get-RequiredConfigBool () {
         [string]$ConfigFileName
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $property = $Config.PSObject.Properties[$Name]

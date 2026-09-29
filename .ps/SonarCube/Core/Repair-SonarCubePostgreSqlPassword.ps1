@@ -45,6 +45,10 @@ function ConvertTo-SonarCubePostgreSqlLiteral () {
         [string]$Value
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         return "'" + ($Value -replace "'", "''") + "'"
@@ -85,6 +89,10 @@ function Invoke-SonarCubePostgreSqlCommand () {
         [ValidateNotNullOrEmpty()]
         [string]$Sql
     )
+
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
 
     Process {
 
@@ -147,6 +155,10 @@ function Repair-SonarCubePostgreSqlPassword () {
         [ValidateRange(1, 60)]
         [int]$RetryIntervalSeconds = 5
     )
+
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
 
     Process {
 

@@ -8,6 +8,18 @@ alwaysApply: false
 
 Every new `.ps1` file in this workspace follows the same five-block layout. Keep the order. Do not skip blocks even when they feel small.
 
+## Top requirement: cross-platform
+
+**Every `.ps1` in this repo must be cross-platform: it must run on Windows, Linux, and macOS under PowerShell 7+ (`pwsh`).** This is the overriding rule — reach for a Windows-only construct only when there is no portable equivalent, and then guard it.
+
+- **Target `pwsh` 7+.** Keep `#Requires -Version 7.2`; never depend on Windows PowerShell 5.1 behavior or the Desktop CLR.
+- **Build paths portably.** Use `Join-Path` (chain calls, or `Join-Path a b c` on 7.x) or `[System.IO.Path]::Combine(...)`. Never hardcode `\` or `/` in a path literal; if you must name a separator use `[IO.Path]::DirectorySeparatorChar`.
+- **Guard OS-specific code** behind the automatic variables `$IsWindows`, `$IsLinux`, `$IsMacOS`. Windows-only steps — `icacls`, `wsl.exe`, the registry, `.url` shortcuts, launching a browser with `Start-Process` — go inside such a guard, with a portable fallback or a clean skip elsewhere.
+- **Prefer cmdlets and .NET APIs over native `.exe`s.** When a native tool is unavoidable, probe it with `Get-Command` and fail with a clear message when it is missing rather than surfacing a raw native error.
+- **Do not assume Windows conventions:** case-insensitive paths, `\r\n` line endings, drive letters, or `%VAR%` (use `$env:VAR`). Keep files `utf8NoBOM` — a BOM breaks consumers on Linux and macOS.
+
+If a script genuinely cannot be portable (for example a Docker Desktop + WSL step that only exists on Windows), document the limitation in `.NOTES` and still guard the OS-specific calls so other platforms get a clear message instead of a confusing failure.
+
 ## File layout (top to bottom)
 
 1. Comment-based help block (`<# ... #>`) with `.SYNOPSIS`, `.DESCRIPTION`, one `.PARAMETER` per parameter, `.INPUTS`, `.OUTPUTS`, `.NOTES`, two or more `.EXAMPLE` blocks.

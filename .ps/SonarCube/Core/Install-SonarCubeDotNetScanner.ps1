@@ -18,6 +18,10 @@ function Install-SonarCubeDotNetScanner () {
     [CmdletBinding()]
     Param ()
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) {

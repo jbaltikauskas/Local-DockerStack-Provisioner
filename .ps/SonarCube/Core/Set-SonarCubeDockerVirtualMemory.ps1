@@ -12,6 +12,10 @@ function Set-SonarCubeDockerVirtualMemory () {
     [CmdletBinding()]
     Param ()
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         if (-not (Get-Command wsl.exe -ErrorAction SilentlyContinue)) {

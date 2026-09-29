@@ -35,6 +35,10 @@ function New-SonarCubeGlobalAnalysisToken () {
         [string]$TokenName
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $webUrl = "http://${WebHost}:${Port}"

@@ -20,6 +20,10 @@ function Assert-SonarCubeAdminPasswordPolicy () {
         [string]$ConfigFileName
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         if (

@@ -31,6 +31,10 @@ function Set-SonarCubeAnalysisExclusions () {
         [string]$AdminPassword
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $requiredPatterns = @(

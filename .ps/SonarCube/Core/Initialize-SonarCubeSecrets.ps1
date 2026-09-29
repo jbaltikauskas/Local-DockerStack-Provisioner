@@ -44,6 +44,10 @@ function Initialize-SonarCubeSecrets () {
         [string]$AdminPassword
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         if (Test-Path -LiteralPath $SecretsPath -PathType Leaf) {

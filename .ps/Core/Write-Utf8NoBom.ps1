@@ -19,6 +19,10 @@ function Write-Utf8NoBom () {
         [string]$Content
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         Set-Content -LiteralPath $Path -Value $Content -Encoding utf8NoBOM -NoNewline

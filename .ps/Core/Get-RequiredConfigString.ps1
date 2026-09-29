@@ -23,6 +23,10 @@ function Get-RequiredConfigString () {
         [string]$ConfigFileName
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $value = [string]$Config.$Name
@@ -58,6 +62,10 @@ function Get-RequiredConfigPort () {
         [ValidateNotNullOrEmpty()]
         [string]$ConfigFileName
     )
+
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
 
     Process {
 

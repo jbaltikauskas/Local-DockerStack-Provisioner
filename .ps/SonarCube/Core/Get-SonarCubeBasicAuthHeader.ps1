@@ -19,6 +19,10 @@ function Get-SonarCubeBasicAuthHeader () {
         [string]$Password
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $basicAuth = [Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("${Login}:${Password}"))

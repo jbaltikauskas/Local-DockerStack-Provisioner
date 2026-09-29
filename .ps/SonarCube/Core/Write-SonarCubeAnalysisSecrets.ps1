@@ -21,6 +21,10 @@ function Write-SonarCubeAnalysisSecrets () {
         [string]$AnalysisToken
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $lines = @()

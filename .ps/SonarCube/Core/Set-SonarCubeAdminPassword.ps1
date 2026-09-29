@@ -83,6 +83,10 @@ function Test-SonarCubeAdminCredential () {
         [string]$AdminPassword
     )
 
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
+
     Process {
 
         $basicAuth = [Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes("${AdminLogin}:${AdminPassword}"))
@@ -142,6 +146,10 @@ function Set-SonarCubeAdminPassword () {
         [ValidateRange(1, 300)]
         [int]$RetryIntervalSeconds = 10
     )
+
+    Begin {
+        Write-Verbose ("BEGIN: {0}" -f $MyInvocation.MyCommand.Name)
+    }
 
     Process {
 
