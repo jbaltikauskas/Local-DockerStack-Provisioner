@@ -48,7 +48,9 @@ and are dot-sourced by every installer: `Get-RequiredConfigString` (with
 http by default, https via `-UseHttps`), `Get-HostPlatformMoniker` (returns the
 OS/architecture/exe-suffix monikers used by single-binary release downloads), and
 `Install-PortableCli` (ensures a single-binary CLI is on PATH, downloading it into
-a tools folder when missing). The last two are used by the ArgoCD/kubectl installer.
+a tools folder when missing), and `Sync-GitRepository` (clones a Git repo to disk
+or pulls it when already present). The last three are used by the ArgoCD/kubectl
+installer.
 Keep these generic: no stack name prefixes and no literals tied to one installer
 (config file names and settings come in as parameters).
 

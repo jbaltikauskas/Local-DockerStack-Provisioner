@@ -1,15 +1,20 @@
 function New-ArgoCdApplication () {
     <#
     .SYNOPSIS
-        Creates or updates an Argo CD application from a Git path.
+        Creates the Argo CD application declaratively with kubectl.
     .DESCRIPTION
-        Runs `argocd app create` with --upsert so the application is created on
-        the first run and reconciled on later runs. The application tracks AppPath
-        in RepoUrl and deploys into DestNamespace on the in-cluster API server.
-        Sync policy is left manual so the first sync is an explicit step. Throws
-        when the command fails. Returns nothing.
+        Writes an argoproj.io/v1alpha1 Application manifest to ManifestPath and
+        applies it into the Argo CD namespace with kubectl (no argocd CLI). The
+        application tracks AppPath in RepoUrl at HEAD and deploys into
+        DestNamespace on the in-cluster API server. An automated sync policy
+        (prune + selfHeal, CreateNamespace) lets Argo CD perform the first sync
+        itself. Rerunning re-applies the same manifest. Throws when kubectl apply
+        fails. Returns the manifest path.
     .NOTES
-        1. Upsert the application definition (repo, path, project, destination).
+        1. Render the Application manifest from the parameters.
+        2. Write it to ManifestPath (UTF-8, no BOM).
+        3. kubectl apply it into ArgoNamespace.
+        4. Return the manifest path.
     #>
     [CmdletBinding()]
     Param (
@@ -31,7 +36,15 @@ function New-ArgoCdApplication () {
 
         [Parameter(Mandatory = $true, HelpMessage = "Destination namespace the application deploys into.")]
         [ValidateNotNullOrEmpty()]
-        [string]$DestNamespace
+        [string]$DestNamespace,
+
+        [Parameter(Mandatory = $true, HelpMessage = "Namespace Argo CD (and the Application resource) lives in.")]
+        [ValidateNotNullOrEmpty()]
+        [string]$ArgoNamespace,
+
+        [Parameter(Mandatory = $true, HelpMessage = "File path the Application manifest is written to.")]
+        [ValidateNotNullOrEmpty()]
+        [string]$ManifestPath
     )
 
     Begin {
@@ -41,17 +54,39 @@ function New-ArgoCdApplication () {
 
     Process {
 
-        Write-Host "Creating Argo CD application '$AppName' ($AppPath -> namespace '$DestNamespace'):" -ForegroundColor Green
-        & argocd app create $AppName `
-            --repo $RepoUrl `
-            --path $AppPath `
-            --project $Project `
-            --dest-server 'https://kubernetes.default.svc' `
-            --dest-namespace $DestNamespace `
-            --sync-policy none `
-            --upsert
+        $manifest = @"
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: $AppName
+  namespace: $ArgoNamespace
+spec:
+  project: $Project
+  source:
+    repoURL: $RepoUrl
+    targetRevision: HEAD
+    path: $AppPath
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: $DestNamespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+"@
+
+        Write-Utf8NoBom -Path $ManifestPath -Content $manifest
+
+        Write-Host "Applying Argo CD Application '$AppName' ($AppPath -> namespace '$DestNamespace'):" -ForegroundColor Green
+        Write-Host "    $ManifestPath" -ForegroundColor Cyan
+        & kubectl apply -n $ArgoNamespace -f $ManifestPath
         if ($LASTEXITCODE -ne 0) {
-            throw "argocd app create failed for '$AppName' with exit code $LASTEXITCODE."
+            throw "kubectl apply of the Argo CD Application '$AppName' failed with exit code $LASTEXITCODE."
         }
+
+        return $ManifestPath
     }
 }

@@ -1,14 +1,18 @@
 function Assert-KubernetesCluster () {
     <#
     .SYNOPSIS
-        Verifies kubectl can reach a running Kubernetes cluster.
+        Verifies kubectl has a current context that reaches a running cluster.
     .DESCRIPTION
-        Runs `kubectl cluster-info` against the current context and throws a clear,
-        actionable message when no cluster answers, so later apply and rollout
-        steps fail early with guidance instead of a raw kubectl error.
+        Fails fast, and cleanly, before the noisy API calls: first checks that a
+        current kube-context is configured (without one, kubectl silently defaults
+        to http://localhost:8080), then confirms the API server answers. Throws a
+        distinct, actionable message for each case so the caller knows whether to
+        enable a cluster or start an existing one.
     .NOTES
-        1. Query cluster-info for the current context.
-        2. Throw an actionable message when the cluster is unreachable.
+        1. Read the current context; throw with enable-a-cluster guidance when unset.
+        2. Query cluster-info with a short timeout; throw with start-the-cluster
+           guidance when the API server does not answer.
+        3. Report the reachable context.
     #>
     [CmdletBinding()]
     Param ()
@@ -19,15 +23,27 @@ function Assert-KubernetesCluster () {
 
     Process {
 
+        $currentContext = ''
         try {
 
-            & kubectl cluster-info | Out-Null
+            $currentContext = (& kubectl config current-context 2>$null | Out-String).Trim()
         }
         catch {
-            throw "No reachable Kubernetes cluster for the current kubectl context. Enable Kubernetes in Docker Desktop, or start a local cluster (kind / minikube / k3d), then rerun. Underlying error: $($_.Exception.Message)"
+            $currentContext = ''
         }
 
-        $currentContext = & kubectl config current-context
+        if ([string]::IsNullOrWhiteSpace($currentContext)) {
+            throw "kubectl has no current context configured, so it defaults to http://localhost:8080 and cannot connect. Enable Kubernetes in Docker Desktop (Settings > Kubernetes > Enable Kubernetes, then Apply & Restart), or start a local cluster (kind / minikube / k3d). Confirm 'kubectl config current-context' prints a context before rerunning."
+        }
+
+        try {
+
+            & kubectl cluster-info --request-timeout=10s 2>$null | Out-Null
+        }
+        catch {
+            throw "Kubernetes context '$currentContext' is set but the API server did not respond. Make sure that cluster is running, then rerun. Underlying error: $($_.Exception.Message)"
+        }
+
         Write-Host "Kubernetes cluster reachable (context: $currentContext)." -ForegroundColor Green
     }
 }
