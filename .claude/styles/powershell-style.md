@@ -21,11 +21,14 @@ The five-block layout above is for entry scripts. Dot-sourced helper modules (ev
 
 **Every helper `.ps1` outside a `Templates\` folder defines exactly one function and is named after it.** `Resolve-PostgreSqlInstallerPort.ps1` holds `Resolve-PostgreSqlInstallerPort` and nothing else. One function per file keeps helpers easy to find, review, and move between stacks, and lets an installer's `$moduleFiles` list read as a manifest of the functions it loads.
 
-The one exception: when a function is a **private helper called by exactly one other function in the same set**, the two may share a file. Keep them together in the caller's file and name the file after that caller (the entry function). Examples:
+The one exception: when a function is a **private helper called by exactly one other function in the same set**, the two may share a file. Keep them together in the caller's file and name the file after that caller (the entry function).
 
-- `.ps\Core\Get-RequiredConfigString.ps1` also holds `Get-RequiredConfigPort`, which calls `Get-RequiredConfigString`.
-- `.ps\SonarCube\Core\Repair-SonarCubePostgreSqlPassword.ps1` also holds the psql-quoting helpers and `Invoke-SonarCubePostgreSqlCommand` that only `Repair-*` uses.
-- `.ps\SonarCube\Core\Set-SonarCubeAdminPassword.ps1` also holds `Wait-SonarCubeWebApiReady` and `Test-SonarCubeAdminCredential`, its sole callers.
+**Approved exceptions (allowlist — keep this in sync).** These are the *only* helper `.ps1` files permitted to hold more than one function. Any other helper file outside `Templates\` that defines more than one function is a violation to split (apply the algorithm below). Adding a new bundle means adding a row here:
+
+- `.ps\Core\Get-RequiredConfigString.ps1` — also holds `Get-RequiredConfigPort`, the port-parsing wrapper that calls `Get-RequiredConfigString`.
+- `.ps\SonarCube\Core\Initialize-SonarCubeInstallerFromConfig.ps1` — also holds `Assert-SonarCubeAdminPasswordPolicy`, called only by `Initialize-SonarCubeInstallerFromConfig`.
+- `.ps\SonarCube\Core\Repair-SonarCubePostgreSqlPassword.ps1` — also holds `ConvertTo-SonarCubePostgreSqlIdentifier`, `ConvertTo-SonarCubePostgreSqlLiteral`, and `Invoke-SonarCubePostgreSqlCommand`, all called only by `Repair-SonarCubePostgreSqlPassword`.
+- `.ps\SonarCube\Core\Set-SonarCubeAdminPassword.ps1` — also holds `Wait-SonarCubeWebApiReady` and `Test-SonarCubeAdminCredential`, its sole callers.
 
 A helper that **two or more** sibling functions call gets its own file instead (for example `Get-SonarCubeWebApiErrorMessage.ps1` and `Get-SonarCubeBasicAuthHeader.ps1`). Cross-file calls resolve fine because the installer dot-sources every module before invoking anything, so co-location is a readability choice, never a requirement.
 

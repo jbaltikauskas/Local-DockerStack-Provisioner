@@ -28,11 +28,16 @@ Edit the stack-specific helper modules when changing installer behavior.
 
 Outside `Templates\`, every helper `.ps1` holds exactly one function and is named
 after it (for example `Core\Resolve-PostgreSqlInstallerPort.ps1`). A private
-helper that only one sibling function calls may share that caller's file, and the
-file is named after the caller (for example `.ps\Core\Get-RequiredConfigString.ps1`
-also holds `Get-RequiredConfigPort`, and SonarCube's
-`Core\Repair-SonarCubePostgreSqlPassword.ps1` holds the psql helpers it alone
-uses). See the one-function-per-file rule in `.claude\styles\powershell-style.md`.
+helper that only one sibling function calls may share that caller's file, named
+after the caller. Exactly four helper files use this exception:
+`.ps\Core\Get-RequiredConfigString.ps1` (also `Get-RequiredConfigPort`),
+`.ps\SonarCube\Core\Initialize-SonarCubeInstallerFromConfig.ps1` (also
+`Assert-SonarCubeAdminPasswordPolicy`),
+`.ps\SonarCube\Core\Repair-SonarCubePostgreSqlPassword.ps1` (also its three psql
+helpers), and `.ps\SonarCube\Core\Set-SonarCubeAdminPassword.ps1` (also
+`Wait-SonarCubeWebApiReady` and `Test-SonarCubeAdminCredential`). That allowlist is
+canonical in the one-function-per-file rule in `.claude\styles\powershell-style.md`;
+any other multi-function helper outside `Templates\` is a bug to split.
 
 Shared, installer-agnostic helpers live under `.ps\Core\`, one function per file,
 and are dot-sourced by every installer: `Get-RequiredConfigString` (with
