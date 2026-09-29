@@ -18,7 +18,10 @@
            configured install root, plus a per-user tools folder.
         3. Ensure kubectl is on PATH (installed via winget on Windows, or the
            official single-binary release on Linux/macOS) when missing.
-        4. Verify kubectl can reach a running Kubernetes cluster.
+        4. Ensure a cluster is available: probe `kubectl get nodes`, and on
+           Windows enable Kubernetes in Docker Desktop when it is off; verify
+           kubectl can reach it, opening the Docker Desktop Kubernetes guide in the
+           browser if it still cannot connect.
         5. Create the argocd namespace when it does not exist.
         6. Server-side apply the Argo CD installation manifest (ARGO_MANIFEST_URL).
         7. Wait for the argocd-server deployment to be ready.
@@ -60,11 +63,13 @@
     success, 1 on failure.
 
 .NOTES
-    Requires PowerShell 7.2+, git on PATH, and a reachable Kubernetes cluster
-    (for example the Kubernetes feature in Docker Desktop, or kind / minikube /
-    k3d). kubectl is installed automatically when missing (winget on Windows).
-    The argocd CLI is not used. The background port-forward stays alive only while
-    this PowerShell window is open.
+    Requires PowerShell 7.2+, git on PATH, and a Kubernetes cluster. On Windows
+    with Docker Desktop, the installer enables Kubernetes automatically when it is
+    off (editing Docker Desktop's settings.json and restarting it); otherwise
+    start a cluster yourself (kind / minikube / k3d). kubectl is installed
+    automatically when missing (winget on Windows). The argocd CLI is not used.
+    The background port-forward stays alive only while this PowerShell window is
+    open.
 
 .EXAMPLE
     PS> .\Install-Kubectl.ps1 -ServerNamePrefix dev
@@ -112,6 +117,8 @@ try {
         , @('Core', 'Initialize-KubectlInstallerFromConfig.ps1')
         , @('Core', 'Resolve-KubectlInstallFolder.ps1')
         , @('Core', 'Install-KubectlCli.ps1')
+        , @('Core', 'Test-KubernetesNodeReady.ps1')
+        , @('Core', 'Enable-DockerDesktopKubernetes.ps1')
         , @('Core', 'Assert-KubernetesCluster.ps1')
         , @('Core', 'New-KubernetesNamespace.ps1')
         , @('Core', 'Show-KubernetesResources.ps1')
@@ -167,8 +174,23 @@ try {
     Write-Host "Ensuring kubectl:" -ForegroundColor Green
     Install-KubectlCli -DestinationDirectory $toolsDirectory
 
-    # ---- 4. Verify the cluster ---------------------------------------------
-    Assert-KubernetesCluster
+    # ---- 4. Ensure and verify the cluster ----------------------------------
+    try {
+
+        Enable-DockerDesktopKubernetes
+        Assert-KubernetesCluster
+    }
+    catch {
+
+        if ($IsWindows) {
+            $kubernetesHelpUrl = 'https://docs.docker.com/desktop/use-desktop/kubernetes/'
+            Write-Host "Opening the Docker Desktop Kubernetes guide in your browser:" -ForegroundColor Yellow
+            Write-Host "    $kubernetesHelpUrl" -ForegroundColor Cyan
+            Start-Process $kubernetesHelpUrl
+        }
+
+        throw
+    }
 
     # ---- 5. argocd namespace -----------------------------------------------
     New-KubernetesNamespace -Name $ArgoNamespace
