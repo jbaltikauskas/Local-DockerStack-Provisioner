@@ -32,16 +32,16 @@
         11. Create the dev and qa workload namespaces and print each namespace.
         12. Clone (or pull) the GIT_REPO_URL repository to disk under a repos
             folder inside the dated install folder.
-        13. Apply an Argo CD Application manifest (kubectl) that tracks
-            GIT_REPO_URL with an automated sync policy.
-        14. Wait until the application is Synced and Healthy.
+        13. Apply an Argo CD Application manifest (kubectl) for each configured
+            application, tracking GIT_REPO_URL with an automated sync policy.
+        14. Wait until each application is Synced and Healthy.
         15. Write a cross-platform browser shortcut to the Argo CD UI in the
             install folder.
         16. Print a summary.
 
-    Runtime values (namespace names, port, URLs, application details, install
+    Runtime values (namespace names, port, URLs, the APPLICATIONS list, install
     root) come from config-kubectl.json; ServerNamePrefix is the only script
-    parameter. The install folder, cloned repo, Application manifest,
+    parameter. The install folder, cloned repo, Application manifests,
     admin-password file, and UI shortcut all live under one dated
     <prefix>-ArgoCD-yyyyMMdd folder inside the install root. Kubernetes namespaces
     must be lowercase RFC 1123 labels, so the requested Dev/QA namespaces are
@@ -57,10 +57,10 @@
     config-kubectl.json.
 
 .OUTPUTS
-    Host messages and, under the dated install folder, an admin-password file, an
-    Argo CD Application manifest, a UI shortcut, and the cloned repository (in a
-    repos subfolder), plus a running background port-forward job. Exit code 0 on
-    success, 1 on failure.
+    Host messages and, under the dated install folder, an admin-password file,
+    one Argo CD Application manifest per application, a UI shortcut, and the cloned
+    repository (in a repos subfolder), plus a running background port-forward job.
+    Exit code 0 on success, 1 on failure.
 
 .NOTES
     Requires PowerShell 7.2+, git on PATH, and a Kubernetes cluster. On Windows
@@ -163,7 +163,7 @@ try {
     Write-Output "Port-forward       : https://${WebHost}:${PortForwardPort} -> service/argocd-server:443"
     Write-Output "Manifest           : $ArgoManifestUrl"
     Write-Output "Git repository     : $GitRepoUrl"
-    Write-Output "Application        : $AppName ($AppPath -> namespace '$AppDestNamespace')"
+    Write-Output "Applications       : $(($Applications | ForEach-Object { "$($_.Name) ($($_.Path) -> $($_.DestNamespace))" }) -join ', ')"
     Write-Output "Workload namespaces: $($WorkloadNamespaces -join ', ')"
     Write-Output ""
     $PSBoundParameters | Out-String | Write-Output
@@ -233,19 +233,23 @@ try {
     Write-Host "Pulling the example repository:" -ForegroundColor Green
     $repoLocalPath = Sync-GitRepository -RepoUrl $GitRepoUrl -DestinationRootFolder $reposFolder
 
-    # ---- 13. Create the application (declarative kubectl apply) ------------
-    $applicationManifestPath = Join-Path $serverRoot 'argocd-application.yaml'
-    New-ArgoCdApplication `
-        -AppName $AppName `
-        -RepoUrl $GitRepoUrl `
-        -AppPath $AppPath `
-        -Project $AppProject `
-        -DestNamespace $AppDestNamespace `
-        -ArgoNamespace $ArgoNamespace `
-        -ManifestPath $applicationManifestPath
+    # ---- 13. Create the applications (declarative kubectl apply) -----------
+    foreach ($application in $Applications) {
+        $applicationManifestPath = Join-Path $serverRoot ("argocd-application-{0}.yaml" -f $application.Name)
+        New-ArgoCdApplication `
+            -AppName $application.Name `
+            -RepoUrl $GitRepoUrl `
+            -AppPath $application.Path `
+            -Project $application.Project `
+            -DestNamespace $application.DestNamespace `
+            -ArgoNamespace $ArgoNamespace `
+            -ManifestPath $applicationManifestPath
+    }
 
-    # ---- 14. Wait until Synced and Healthy ---------------------------------
-    Wait-ArgoCdApplicationHealthy -Namespace $ArgoNamespace -AppName $AppName
+    # ---- 14. Wait until each application is Synced and Healthy --------------
+    foreach ($application in $Applications) {
+        Wait-ArgoCdApplicationHealthy -Namespace $ArgoNamespace -AppName $application.Name
+    }
 
     # ---- 15. UI shortcut ---------------------------------------------------
     $shortcutPath = Write-ArgoCdWebUiShortcut `
@@ -259,7 +263,12 @@ try {
     Write-Host "Argo CD is running." -ForegroundColor Green
     Write-Host "Web UI:        https://${WebHost}:${PortForwardPort}" -ForegroundColor Cyan
     Write-Host "Login:         admin / password saved in $savedSecretsPath (log in via the browser UI)" -ForegroundColor Cyan
-    Write-Host "Application:   $AppName (namespace '$AppDestNamespace'); manifest $applicationManifestPath" -ForegroundColor Cyan
+    Write-Host "Applications:" -ForegroundColor Cyan
+    foreach ($application in $Applications) {
+        Write-Host ("    {0} (namespace '{1}')" -f $application.Name, $application.DestNamespace) -ForegroundColor Cyan
+    }
+
+    Write-Host "Manifests:     $serverRoot (argocd-application-*.yaml)" -ForegroundColor Cyan
     Write-Host "Install:       $serverRoot" -ForegroundColor Cyan
     Write-Host "Repo clone:    $repoLocalPath" -ForegroundColor Cyan
     Write-Host "Shortcut:      $shortcutPath" -ForegroundColor Cyan

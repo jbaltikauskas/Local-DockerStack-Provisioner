@@ -9,7 +9,7 @@ function Initialize-KubectlInstallerFromConfig () {
         parsed, or any required setting is absent or invalid.
     .NOTES
         1. Require and parse config-kubectl.json next to the installer.
-        2. Read and validate the namespace, port, URLs, and application settings.
+        2. Read and validate the namespace, port, URLs, and each APPLICATIONS entry.
         3. Resolve INSTALL_ROOT_FOLDER to an absolute path.
         4. Write validated values to script scope.
     #>
@@ -48,6 +48,33 @@ function Initialize-KubectlInstallerFromConfig () {
             throw "$configFileName WORKLOAD_NAMESPACES must list at least one namespace."
         }
 
+        $applicationsRaw = @($config.APPLICATIONS)
+        if ($applicationsRaw.Count -eq 0) {
+            throw "$configFileName APPLICATIONS must list at least one application."
+        }
+
+        $applications = foreach ($app in $applicationsRaw) {
+            $appName = [string]$app.NAME
+            $appPath = [string]$app.PATH
+            $appProject = [string]$app.PROJECT
+            $appDestNamespace = [string]$app.DEST_NAMESPACE
+            if (
+                [string]::IsNullOrWhiteSpace($appName) -or
+                [string]::IsNullOrWhiteSpace($appPath) -or
+                [string]::IsNullOrWhiteSpace($appProject) -or
+                [string]::IsNullOrWhiteSpace($appDestNamespace)
+            ) {
+                throw "$configFileName APPLICATIONS entries each require a non-empty NAME, PATH, PROJECT, and DEST_NAMESPACE."
+            }
+
+            [pscustomobject]@{
+                Name          = $appName
+                Path          = $appPath
+                Project       = $appProject
+                DestNamespace = $appDestNamespace
+            }
+        }
+
         $installRootFolder = [string]$config.INSTALL_ROOT_FOLDER
         if ([string]::IsNullOrWhiteSpace($installRootFolder)) {
             $installRootFolder = $ScriptRoot
@@ -63,10 +90,7 @@ function Initialize-KubectlInstallerFromConfig () {
             WebHost            = Get-RequiredConfigString -Config $config -Name 'WEB_HOST' -ConfigFileName $configFileName
             ArgoManifestUrl    = Get-RequiredConfigString -Config $config -Name 'ARGO_MANIFEST_URL' -ConfigFileName $configFileName
             GitRepoUrl         = Get-RequiredConfigString -Config $config -Name 'GIT_REPO_URL' -ConfigFileName $configFileName
-            AppName            = Get-RequiredConfigString -Config $config -Name 'APP_NAME' -ConfigFileName $configFileName
-            AppPath            = Get-RequiredConfigString -Config $config -Name 'APP_PATH' -ConfigFileName $configFileName
-            AppProject         = Get-RequiredConfigString -Config $config -Name 'APP_PROJECT' -ConfigFileName $configFileName
-            AppDestNamespace   = Get-RequiredConfigString -Config $config -Name 'APP_DEST_NAMESPACE' -ConfigFileName $configFileName
+            Applications       = @($applications)
             WorkloadNamespaces = [string[]]$workloadNamespaces
         }
 

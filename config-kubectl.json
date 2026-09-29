@@ -5,9 +5,9 @@
     "WEB_HOST": "localhost",
     "ARGO_MANIFEST_URL": "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml",
     "GIT_REPO_URL": "https://github.com/jbaltikauskas/argo-examples.git",
-    "APP_NAME": "kustom-webapp",
-    "APP_PATH": "kustom-webapp",
-    "APP_PROJECT": "default",
-    "APP_DEST_NAMESPACE": "dev",
+    "APPLICATIONS": [
+        { "NAME": "kustom-webapp", "PATH": "kustom-webapp", "PROJECT": "default", "DEST_NAMESPACE": "dev" },
+        { "NAME": "helm-webapp", "PATH": "helm-webapp", "PROJECT": "default", "DEST_NAMESPACE": "dev" }
+    ],
     "WORKLOAD_NAMESPACES": [ "dev", "qa" ]
 }
