@@ -2,7 +2,7 @@
 <#
 .SYNOPSIS
     Ensures kubectl, installs Argo CD into the current cluster, and deploys the
-    kustom-webapp example application.
+    configured Argo CD applications from a Git repository.
 
 .DESCRIPTION
     This follows the kubectl-only getting-started flow
@@ -65,7 +65,8 @@
 .NOTES
     Requires PowerShell 7.2+, git on PATH, and a Kubernetes cluster. On Windows
     with Docker Desktop, the installer enables Kubernetes automatically when it is
-    off (editing Docker Desktop's settings.json and restarting it); otherwise
+    off (editing Docker Desktop's settings-store.json, or settings.json on older
+    versions, and restarting it); otherwise
     start a cluster yourself (kind / minikube / k3d). kubectl is installed
     automatically when missing (winget on Windows). The argocd CLI is not used.
     The background port-forward stays alive only while this PowerShell window is
@@ -110,6 +111,7 @@ try {
     # so the loader never hardcodes a path separator (Windows / Linux / macOS).
     $moduleFiles = @(
         , @('..', 'Core', 'Get-RequiredConfigString.ps1')
+        , @('..', 'Core', 'Get-RequiredConfigPort.ps1')
         , @('..', 'Core', 'Get-HostPlatformMoniker.ps1')
         , @('..', 'Core', 'Install-PortableCli.ps1')
         , @('..', 'Core', 'Sync-GitRepository.ps1')

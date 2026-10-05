@@ -107,8 +107,6 @@ docker compose -f .\docker-compose.yml logs -f $ServiceName
 ## Generated Docker Compose
 
 ``````yaml
-version: '3.8'
-
 services:
   snowflake-emulator:
     image: $SnowflakeImage

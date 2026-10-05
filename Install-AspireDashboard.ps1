@@ -64,6 +64,7 @@ try {
     $moduleFiles = @(
         '..\Core\Write-Utf8NoBom.ps1'
         '..\Core\Get-RequiredConfigString.ps1'
+        '..\Core\Get-RequiredConfigPort.ps1'
         '..\Core\Get-RequiredConfigBool.ps1'
         '..\Core\Assert-DockerPrerequisites.ps1'
         '..\Core\Start-ComposeStack.ps1'

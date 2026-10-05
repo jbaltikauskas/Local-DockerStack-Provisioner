@@ -22,8 +22,6 @@ user:pass@localhost:8080/TEST_DB/PUBLIC?account=test&protocol=http
 `Install-Snowflake.ps1` generates `docker-compose.yml` like this:
 
 ```yaml
-version: '3.8'
-
 services:
   snowflake-emulator:
     image: ghcr.io/nnnkkk7/snowflake-emulator:latest

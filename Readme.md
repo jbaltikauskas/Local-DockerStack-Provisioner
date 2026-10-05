@@ -82,6 +82,11 @@ Each installer reads runtime settings from its matching required config file:
 from config files. Install folders use the pattern
 `<ServerNamePrefix>-<StackName>-yyyyMMdd`.
 
+Each stack is self-contained and meant to run on its own. Several default to
+overlapping host ports — `8080` is used by Snowflake (`PORT`), Cosmos DB
+(`HEALTH_PORT`), and the Argo CD port-forward (`PORT_FORWARD_PORT`) — so change
+a port in the relevant config file before running two such stacks at once.
+
 Each config file sets `INSTALL_ROOT_FOLDER` to control where the dated install
 folder is created. Relative paths are resolved from the installer script
 folder. Leave it empty to use the installer script folder. If the configured
@@ -97,7 +102,7 @@ Generated install folders include stack-specific files such as:
 
 - `docker-compose.yml`
 - Stack-specific start and stop scripts (`.ps1` and `.cmd` / `.bat`)
-- Windows Internet Shortcuts (`*.url`) for 1-click browser navigation (`SonarCube.url`, `AspireDashboard.url`, `CosmosDb.url`)
+- Windows Internet Shortcuts (`*.url`) for 1-click browser navigation (`SonarCube.url`, `AspireDashboard.url`, `CosmosDb.url`). `Install-Kubectl.ps1` writes a cross-platform `ArgoCD` shortcut (`.url` / `.webloc` / `.desktop`); see [docs/Install-Kubectl.md](docs/Install-Kubectl.md)
 - Standalone helper utilities, such as `Scan-SonarCube.ps1` with embedded credentials
 - `config\.env`
 - `config\.env.secrets` when the stack needs secrets

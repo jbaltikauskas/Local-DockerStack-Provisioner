@@ -34,8 +34,6 @@ function New-SnowflakeComposeFile () {
     Process {
 
         $content = @"
-version: '3.8'
-
 services:
   snowflake-emulator:
     image: $SnowflakeImage

@@ -14,6 +14,8 @@ Current root installers:
 - `Install-PostgreSql.ps1` with helpers under `.ps\PostgreSql`
 - `Install-Snowflake.ps1` with helpers under `.ps\Snowflake`
 - `Install-CosmosDb.ps1` with helpers under `.ps\CosmosDb`
+- `Install-Kubectl.ps1` with helpers under `.ps\Kubectl` (not a Docker Compose
+  stack — bootstraps Argo CD onto a local Kubernetes cluster via `kubectl`)
 
 Each installer has a matching required root config file:
 
@@ -23,14 +25,14 @@ Each installer has a matching required root config file:
 - `config-postgresql.json`
 - `config-snowflake.json`
 - `config-cosmosdb.json`
+- `config-kubectl.json`
 
 Edit the stack-specific helper modules when changing installer behavior.
 
 Outside `Templates\`, every helper `.ps1` holds exactly one function and is named
 after it (for example `Core\Resolve-PostgreSqlInstallerPort.ps1`). A private
 helper that only one sibling function calls may share that caller's file, named
-after the caller. Exactly four helper files use this exception:
-`.ps\Core\Get-RequiredConfigString.ps1` (also `Get-RequiredConfigPort`),
+after the caller. Exactly three helper files use this exception:
 `.ps\SonarCube\Core\Initialize-SonarCubeInstallerFromConfig.ps1` (also
 `Assert-SonarCubeAdminPasswordPolicy`),
 `.ps\SonarCube\Core\Repair-SonarCubePostgreSqlPassword.ps1` (also its three psql
@@ -40,8 +42,8 @@ canonical in the one-function-per-file rule in `.claude\styles\powershell-style.
 any other multi-function helper outside `Templates\` is a bug to split.
 
 Shared, installer-agnostic helpers live under `.ps\Core\`, one function per file,
-and are dot-sourced by every installer: `Get-RequiredConfigString` (with
-`Get-RequiredConfigPort`), `Get-RequiredConfigBool`, `Assert-DockerPrerequisites`,
+and are dot-sourced by the installers that need them: `Get-RequiredConfigString`,
+`Get-RequiredConfigPort`, `Get-RequiredConfigBool`, `Assert-DockerPrerequisites`,
 `Start-ComposeStack`, `Test-TcpPortAvailable`, `Resolve-BindAddressFromHostName`,
 `Write-Utf8NoBom` (writes UTF-8 without a BOM), `Write-InternetShortcut`
 (writes a `<Name>.url` Internet Shortcut for a `scheme://WebHost:Port` URL;
@@ -77,6 +79,13 @@ preserved by secret initializers.
 
 For end-user docs, see `Readme.md` (root) and the install-folder `README.md`
 next to each generated `docker-compose.yml`.
+
+Run `pwsh -File .\Test-Documentation.ps1` after changing installers, config
+files, or the SonarCube exclusions to confirm the docs still match the code. It
+asserts every `Install-*.ps1` and `config-*.json` is listed in both `Readme.md`
+and this file, and that the `sonar.exclusions` string in
+`Set-SonarCubeAnalysisExclusions.ps1` appears verbatim in both `AGENTS.md` and
+`docs\Install-SonarCube.md`. It exits non-zero on any mismatch.
 
 ## Stack-specific notes
 
@@ -141,9 +150,10 @@ Unless a task explicitly requires them, do not traverse or index:
 
 - `.git/` — version control metadata only.
 - Per-install folders whose names end with `-SonarCube-yyyyMMdd`,
-  `-MSSql-yyyyMMdd`, `-AspireDashboard-yyyyMMdd`, or
-  `-PostgreSql-yyyyMMdd`, or `-Snowflake-yyyyMMdd`, or `-CosmosDb-yyyyMMdd`
-  (8-digit date). These are generated stacks and may contain local secrets or
+  `-MSSql-yyyyMMdd`, `-AspireDashboard-yyyyMMdd`, `-PostgreSql-yyyyMMdd`,
+  `-Snowflake-yyyyMMdd`, `-CosmosDb-yyyyMMdd`, or `-ArgoCD-yyyyMMdd`
+  (8-digit date). These are generated stacks and may contain local secrets
+  (for example the Argo CD install folder's `argocd-admin-password.env`) or
   persistent-data references.
 
 ## `docker-compose.yml` generation and edits

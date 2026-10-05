@@ -37,7 +37,6 @@ The one exception: when a function is a **private helper called by exactly one o
 
 **Approved exceptions (allowlist — keep this in sync).** These are the *only* helper `.ps1` files permitted to hold more than one function. Any other helper file outside `Templates\` that defines more than one function is a violation to split (apply the algorithm below). Adding a new bundle means adding a row here:
 
-- `.ps\Core\Get-RequiredConfigString.ps1` — also holds `Get-RequiredConfigPort`, the port-parsing wrapper that calls `Get-RequiredConfigString`.
 - `.ps\SonarCube\Core\Initialize-SonarCubeInstallerFromConfig.ps1` — also holds `Assert-SonarCubeAdminPasswordPolicy`, called only by `Initialize-SonarCubeInstallerFromConfig`.
 - `.ps\SonarCube\Core\Repair-SonarCubePostgreSqlPassword.ps1` — also holds `ConvertTo-SonarCubePostgreSqlIdentifier`, `ConvertTo-SonarCubePostgreSqlLiteral`, and `Invoke-SonarCubePostgreSqlCommand`, all called only by `Repair-SonarCubePostgreSqlPassword`.
 - `.ps\SonarCube\Core\Set-SonarCubeAdminPassword.ps1` — also holds `Wait-SonarCubeWebApiReady` and `Test-SonarCubeAdminCredential`, its sole callers.
